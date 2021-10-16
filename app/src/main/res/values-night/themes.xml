@@ -2,15 +2,44 @@
     <!-- Base application theme. -->
     <style name="Theme.REaCT" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimary">@color/primary_color</item>
+        <item name="colorPrimaryVariant">@color/primary_color_variant</item>
+        <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
+        <item name="colorSecondary">@color/secondary_color</item>
+        <item name="colorSecondaryVariant">@color/secondary_color_variant</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+    </style>
+
+    <style name="Theme.REaCT.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.REaCT.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.REaCT.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Theme.REaCT.AppBarOverlay.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.REaCT.AppBarOverlay.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="Theme.REaCT.AppBarOverlay.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- Button -->
+    <style name="AppTheme.RoundedButtonWhite" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/cust_button_white</item>
+        <item name="android:color">#0C59CF</item>
+    </style>
+
+    <style name="AppTheme.RoundedButtonBlue" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/cust_button_blue</item>
+        <item name="android:color">#FFFFFF</item>
     </style>
 </resources>

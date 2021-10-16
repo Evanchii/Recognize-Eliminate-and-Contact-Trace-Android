@@ -4,31 +4,31 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/action_dashboard"
-            android:icon="@drawable/home"
+            android:icon="@drawable/ic_home"
             android:orderInCategory="100"
             android:title="Dashboard"
             app:showAsAction="never" />
         <item
             android:id="@+id/action_covid"
-            android:icon="@drawable/statistics"
+            android:icon="@drawable/ic_statistics"
             android:orderInCategory="100"
             android:title="COVID Cases"
             app:showAsAction="never" />
         <item
             android:id="@+id/action_health"
-            android:icon="@drawable/heart"
+            android:icon="@drawable/ic_heart"
             android:orderInCategory="100"
             android:title="Health Status"
             app:showAsAction="never" />
         <item
             android:id="@+id/action_location"
-            android:icon="@drawable/location"
+            android:icon="@drawable/ic_location"
             android:orderInCategory="100"
             android:title="Location History"
             app:showAsAction="never" />
         <item
             android:id="@+id/action_settings"
-            android:icon="@drawable/settings"
+            android:icon="@drawable/ic_settings"
             android:orderInCategory="100"
             android:title="Settings"
             app:showAsAction="never" />

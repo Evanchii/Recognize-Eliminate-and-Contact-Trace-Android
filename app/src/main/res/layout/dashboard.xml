@@ -74,35 +74,75 @@
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardView"
                         android:layout_width="150dp"
-                        android:layout_height="150dp"
-                        android:layout_marginStart="20dp"
+                        android:layout_height="200dp"
                         app:cardCornerRadius="20dp"
+                        app:layout_constraintEnd_toStartOf="@+id/cardView3"
+                        app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <ImageView
-                            android:id="@+id/imageView3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:onClick="locationHistory"
-                            app:srcCompat="@drawable/logo" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageView3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:adjustViewBounds="true"
+                                android:onClick="locationHistory"
+                                android:scaleType="centerInside"
+                                app:srcCompat="@drawable/art_location" />
+
+                            <TextView
+                                android:id="@+id/textView12"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/asap"
+                                android:text="Location History"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardView3"
                         android:layout_width="150dp"
-                        android:layout_height="150dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_height="200dp"
                         app:cardCornerRadius="20dp"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/cardView"
                         app:layout_constraintTop_toTopOf="@+id/cardView">
 
-                        <ImageView
-                            android:id="@+id/imageView4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:onClick="healthStatus"
-                            app:srcCompat="@drawable/logo" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/imageView4"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:adjustViewBounds="true"
+                                android:cropToPadding="false"
+                                android:onClick="healthStatus"
+                                app:srcCompat="@drawable/art_health" />
+
+                            <TextView
+                                android:id="@+id/textView11"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/asap"
+                                android:text="Health Status"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
@@ -120,7 +160,7 @@
                             android:id="@+id/imageView5"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/logo" />
+                            app:srcCompat="@drawable/temp_situationer" />
                     </androidx.cardview.widget.CardView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -135,6 +175,8 @@
         android:layout_gravity="start"
         android:background="#FFF"
 
+        app:headerLayout="@layout/header"
+        app:itemShapeFillColor="@color/navigation_item_background"
         app:itemTextColor="@color/black"
         app:menu="@menu/hamburger_menu">
 

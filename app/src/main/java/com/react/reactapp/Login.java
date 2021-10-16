@@ -51,6 +51,7 @@ public class Login extends AppCompatActivity {
         login_email=(EditText)findViewById(R.id.login_eTxtEmail);
         login_password=(EditText)findViewById(R.id.login_eTxtPass);
 
+        finish();
         startActivity(new Intent(Login.this, Dashboard.class));
 //        if(!login_email.getText().toString().trim().equals("") && !login_password.getText().toString().trim().equals("")){
 //            dialog = ProgressDialog.show(Login.this, "Please wait","Logging in...", true);

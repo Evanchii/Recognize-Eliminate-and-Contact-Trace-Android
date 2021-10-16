@@ -45,6 +45,7 @@
         android:layout_gravity="start"
         android:background="#FFF"
 
+        app:headerLayout="@layout/header"
         app:itemTextColor="@color/black"
         app:menu="@menu/hamburger_menu">
 

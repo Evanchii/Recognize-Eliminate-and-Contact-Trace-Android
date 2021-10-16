@@ -13,6 +13,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#D4E3FC"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -20,7 +21,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:background="#D4E3FC">
 
                 <TextView
                     android:id="@+id/textView12"
@@ -42,6 +44,8 @@
         android:layout_gravity="start"
         android:background="#FFF"
 
+        app:headerLayout="@layout/header"
+        app:itemShapeFillColor="@color/navigation_item_background"
         app:itemTextColor="@color/black"
         app:menu="@menu/hamburger_menu">
 

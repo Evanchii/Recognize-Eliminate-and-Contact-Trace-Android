@@ -12,7 +12,6 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-
     </style>
 
     <style name="Theme.REaCT.NoActionBar">
@@ -43,6 +42,4 @@
         <item name="android:background">@drawable/cust_button_blue</item>
         <item name="android:color">#FFFFFF</item>
     </style>
-
-
 </resources>

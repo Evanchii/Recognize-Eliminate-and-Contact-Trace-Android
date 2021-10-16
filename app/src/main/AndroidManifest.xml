@@ -12,8 +12,12 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.REaCT">
-        <activity android:name=".Settings"></activity>
-        <activity android:name=".Profile" />
+        <activity android:name=".Settings"/>
+        <activity android:name=".Profile">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Dashboard" />
+        </activity>
         <activity android:name=".Cases" />
         <activity android:name=".Health" />
         <activity android:name=".Location" />
