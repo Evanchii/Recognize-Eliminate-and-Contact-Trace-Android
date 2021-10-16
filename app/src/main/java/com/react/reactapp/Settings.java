@@ -6,16 +6,14 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
 
 import org.jetbrains.annotations.NotNull;
 
-public class Dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class Settings extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
@@ -23,7 +21,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        setContentView(R.layout.dashboard);
+        setContentView(R.layout.settings);
 
         new CommonFunctions().fetchHamburgerDetails((NavigationView) findViewById(R.id.navigation_view));
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawerButton);
@@ -34,7 +32,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(0).setChecked(true);
+        navigationView.getMenu().getItem(4).setChecked(true);
     }
 
     @Override
@@ -46,16 +44,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
     @Override
     public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
-        if(CommonFunctions.menu(this, item, "Dashboard"))
+        if(CommonFunctions.menu(this, item, "Settings"))
             finish();
         return true;
-    }
-
-    public void locationHistory(View view) {
-        startActivity(new Intent(Dashboard.this, Location.class));
-    }
-
-    public void healthStatus(View view) {
-        startActivity(new Intent(Dashboard.this, Health.class));
     }
 }

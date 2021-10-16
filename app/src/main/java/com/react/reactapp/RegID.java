@@ -23,7 +23,7 @@ public class RegID extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reg_id);
         Intent intent = getIntent();
-        info = (HashMap<String, String>) intent.getSerializableExtra("userInfo");
+        info = (HashMap<String, String>) intent.getSerializableExtra("info");
 
         Button upload = (Button) findViewById(R.id.regID_btnUpload);
         upload.setOnClickListener(v -> {
@@ -36,7 +36,7 @@ public class RegID extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==GALLERY_INTENT && resultCode==RESULT_OK){
             URIid= data.getData();
-            ((ImageView) findViewById(R.id.regFace_imgFace)).setImageURI(URIid);
+            ((ImageView) findViewById(R.id.regID_imgID)).setImageURI(URIid);
 
             ((Button) findViewById(R.id.regID_btnNext)).setEnabled(true);
         }
@@ -45,6 +45,7 @@ public class RegID extends AppCompatActivity {
     public void submit(View view) {
         //Call API
         if(true/*success*/) {
+            System.out.print("Debug"+info.keySet());
             info.put("ID", String.valueOf(URIid));
             startActivity((new Intent(RegID.this, RegPassword.class)).putExtra("info", info));
             finish();

@@ -25,19 +25,19 @@ public class CommonFunctions extends AppCompatActivity {
                 break;
             case R.id.action_covid:
                 if(!src.equals(item.getTitle()))
-//                    i = new Intent(con, COVID.class);
+                    i = new Intent(con, Cases.class);
                 break;
             case R.id.action_health:
                 if(!src.equals(item.getTitle()))
-//                    i = new Intent(con, Health.class);
+                    i = new Intent(con, Health.class);
                 break;
             case R.id.action_location:
                 if(!src.equals(item.getTitle()))
-//                    i = new Intent(con, Location.class);
+                    i = new Intent(con, Location.class);
                 break;
             case R.id.action_settings:
                 if(!src.equals(item.getTitle()))
-//                    i = new Intent(con, Settings.class);
+                    i = new Intent(con, Settings.class);
                 break;
         }
         if(i!=null) {
