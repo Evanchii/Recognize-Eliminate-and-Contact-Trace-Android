@@ -13,7 +13,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/secondary_color"
+            android:background="#D4E3FC"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -22,7 +22,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/secondary_color">
+                android:background="@color/primary_color">
 
                 <LinearLayout
                     android:id="@+id/linearLayout"
@@ -62,9 +62,11 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@drawable/curback_lightblue"
                     android:paddingStart="16dp"
                     android:paddingTop="24dp"
                     android:paddingEnd="16dp"
+                    android:paddingBottom="24dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout">

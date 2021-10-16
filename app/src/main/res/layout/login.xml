@@ -21,7 +21,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="60dp"
-        android:background="#0C59CF"
+        android:background="@drawable/curback_blue"
         android:paddingStart="16dp"
         android:paddingTop="32dp"
         android:paddingEnd="16dp"
