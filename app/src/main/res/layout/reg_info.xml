@@ -192,13 +192,12 @@
                 android:textColor="#333333"
                 android:textSize="16sp" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/reg_addCo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:fontFamily="@font/asap"
-                android:inputType="textPersonName" />
+                android:layout_height="50dp"
+                android:clickable="false"
+                android:entries="@array/country" />
 
             <TextView
                 android:id="@+id/regInfo09"
@@ -210,13 +209,12 @@
                 android:textColor="#333333"
                 android:textSize="16sp" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/reg_addPro"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:fontFamily="@font/asap"
-                android:inputType="textPersonName" />
+                android:layout_height="50dp"
+                android:clickable="false"
+                android:entries="@array/province" />
 
             <TextView
                 android:id="@+id/regInfo10"
@@ -228,15 +226,12 @@
                 android:textColor="#333333"
                 android:textSize="16sp" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/reg_addCi"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:editable="false"
-                android:ems="10"
-                android:fontFamily="@font/asap"
-                android:inputType="textPersonName"
-                android:text="Dagupan City" />
+                android:layout_height="50dp"
+                android:clickable="false"
+                android:entries="@array/city" />
 
             <TextView
                 android:id="@+id/regInfo11"
@@ -244,17 +239,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:fontFamily="@font/asap"
-                android:text="Baranggay"
+                android:text="Barangay"
                 android:textColor="#333333"
                 android:textSize="16sp" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/reg_addBa"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:fontFamily="@font/asap"
-                android:inputType="textPersonName" />
+                android:layout_height="50dp"
+                android:clickable="false"
+                android:entries="@array/barangay" />
 
             <TextView
                 android:id="@+id/regInfo12"
@@ -272,6 +266,7 @@
                 android:layout_height="wrap_content"
                 android:editable="false"
                 android:ems="10"
+                android:enabled="false"
                 android:fontFamily="@font/asap"
                 android:inputType="textPersonName"
                 android:text="2400" />

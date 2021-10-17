@@ -1,21 +1,25 @@
 package com.react.reactapp;
 
-import androidx.annotation.Nullable;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import java.io.File;
 import java.util.HashMap;
 
 public class RegFace extends AppCompatActivity {
 
     HashMap<String, String> info;
-    private static final int GALLERY_INTENT=2;
     private Uri URIFace;
 
     @Override
@@ -25,21 +29,43 @@ public class RegFace extends AppCompatActivity {
         Intent intent = getIntent();
         info = (HashMap<String, String>) intent.getSerializableExtra("userInfo");
 
+        ActivityResultLauncher<Uri> cameraIntent = registerForActivityResult(
+                new ActivityResultContracts.TakePicture(),
+                result -> {
+                    if(result) {
+                        ((ImageView) findViewById(R.id.regFace_imgFace)).setImageURI(URIFace);
+                        ((Button) findViewById(R.id.regID_btnNext)).setEnabled(true);
+                    }
+                });
+
         Button upload = (Button) findViewById(R.id.regID_btnUpload);
         upload.setOnClickListener(v -> {
-            startActivityForResult(new Intent(Intent.ACTION_PICK).setType("image/"), GALLERY_INTENT);
+            File root = new File( Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DCIM), "REaCT");
+
+            if(!root.exists()){
+
+                boolean s = new File(root.getPath()).mkdirs();
+
+                if(!s){
+                    Log.v("not", "not created");
+                }
+                else{
+                    Log.v("cr","directory created");
+                }
+            }
+            else{
+                Log.v("directory", "directory exists");
+            }
+
+            String fname = "img_" + System.currentTimeMillis() + ".jpg";
+            File sdImageMainDirectory = new File(root, fname);
+            URIFace = FileProvider.getUriForFile(
+                    RegFace.this,
+                    this.getApplicationContext()
+                            .getPackageName() + ".provider", sdImageMainDirectory);
+            cameraIntent.launch(URIFace);
         });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==GALLERY_INTENT && resultCode==RESULT_OK){
-            URIFace= data.getData();
-            ((ImageView) findViewById(R.id.regFace_imgFace)).setImageURI(URIFace);
-
-            ((Button) findViewById(R.id.regID_btnNext)).setEnabled(true);
-        }
     }
 
     public void submit(View view) {

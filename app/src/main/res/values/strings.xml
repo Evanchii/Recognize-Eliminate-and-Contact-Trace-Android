@@ -1,16 +1,58 @@
-<resources>
-    <string name="app_name">REaCT</string>
-    <string name="title_activity_splash_screen">SplashScreen</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+    <resources>
+        <string name="app_name">REaCT</string>
+        <string name="title_activity_splash_screen">SplashScreen</string>
+        <!-- Strings used for fragments for navigation -->
+        <string name="first_fragment_label">First Fragment</string>
+        <string name="second_fragment_label">Second Fragment</string>
+        <string name="next">Next</string>
+        <string name="previous">Previous</string>
 
-    <string name="descLogo">Application Logo</string>
-    <string name="title_activity_registration">Registration</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
-    <string name="Open">Open</string>
-    <string name="Close">Close</string>
+        <string name="descLogo">Application Logo</string>
+        <string name="title_activity_registration">Registration</string>
+        <string name="tab_text_1">Tab 1</string>
+        <string name="tab_text_2">Tab 2</string>
+        <string name="Open">Open</string>
+        <string name="Close">Close</string>
+
+        <string-array name="country">
+            <item>Philippines</item>
+        </string-array>
+        <string-array name="province">
+            <item>Pangasinan</item>
+        </string-array>
+        <string-array name="city">
+            <item>Dagupan City</item>
+        </string-array>
+        <string-array name="barangay">
+            <item>Bacayao Norte</item>
+            <item>Bacayao Sur</item>
+            <item>Barangay I</item>
+            <item>Barangay II</item>
+            <item>Barangay IV</item>
+            <item>Bolosan</item>
+            <item>Bonuan Binloc</item>
+            <item>Bonuan Boquig</item>
+            <item>Bonuan Gueset</item>
+            <item>Calmay</item>
+            <item>Carael</item>
+            <item>Caranglaan</item>
+            <item>Herrero</item>
+            <item>Lasip Chico</item>
+            <item>Lasip Grande</item>
+            <item>Lomboy</item>
+            <item>Lucao</item>
+            <item>Malued</item>
+            <item>Mamalingling</item>
+            <item>Mangin</item>
+            <item>Mayombo</item>
+            <item>Pantal</item>
+            <item>Poblacion Oeste</item>
+            <item>Pogo Chico</item>
+            <item>Pugaro Suit</item>
+            <item>Salapingao</item>
+            <item>Salisay</item>
+            <item>Tambac</item>
+            <item>Tapuac</item>
+            <item>Tebeng</item>
+        </string-array>
 </resources>
