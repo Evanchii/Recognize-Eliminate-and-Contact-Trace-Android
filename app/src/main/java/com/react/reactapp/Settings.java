@@ -8,6 +8,7 @@ import androidx.cardview.widget.CardView;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +44,17 @@ public class Settings extends AppCompatActivity implements NavigationView.OnNavi
         CardView headerCard = (CardView) headerView.findViewById(R.id.header_cardMain);
         headerCard.setOnClickListener(v -> {
             startActivity(new Intent(this, Profile.class));
+        });
+
+        Button about = (Button) findViewById(R.id.settings_btnAbout),
+                privacy = (Button) findViewById(R.id.settings_btnPrivacy),
+                logout = (Button) findViewById(R.id.settings_btnLogOut);
+        about.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://react.alevan.ga/about/"))));
+        privacy.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://react.alevan.ga/privacy/"))));
+        logout.setOnClickListener(v -> {
+            //logout from firebase
+            finish();
+            startActivity(new Intent(Settings.this, Login.class));
         });
     }
 

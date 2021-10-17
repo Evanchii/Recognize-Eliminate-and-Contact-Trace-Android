@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "607890715233",
+    "firebase_url": "https://react-ebe8e-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "react-ebe8e",
+    "storage_bucket": "react-ebe8e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:607890715233:android:87e4b8a351d75e6255f020",
+        "android_client_info": {
+          "package_name": "com.react.reactapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "607890715233-emcmkf0i9oidtv2qa02l3fa90bcu8079.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiuwIzbhlo-ZktTalwHn-j0osORVyhBhk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "607890715233-emcmkf0i9oidtv2qa02l3fa90bcu8079.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

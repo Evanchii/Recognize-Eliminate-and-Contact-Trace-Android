@@ -38,29 +38,56 @@
                     android:id="@+id/textView7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="12dp"
                     android:fontFamily="@font/quicksand"
-                    android:text="COVID-19 Status"
+                    android:text="COVID-19 Status:"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/toggleButton"
-                    app:layout_constraintEnd_toStartOf="@+id/toggleButton"
+                    app:layout_constraintEnd_toStartOf="@+id/health_cardStatus"
                     app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/toggleButton" />
+                    app:layout_constraintTop_toTopOf="@+id/health_cardStatus" />
 
-                <ToggleButton
-                    android:id="@+id/toggleButton"
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/health_cardStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:fontFamily="@font/quicksand"
-                    android:textAllCaps="false"
-                    android:textOff="Negative"
-                    android:textOn="Positive"
+                    android:onClick="healthStatus"
+                    app:cardCornerRadius="15dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/textView7"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:strokeColor="#4A9F7E"
+                    app:strokeWidth="2dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="6dp">
+
+                        <ImageView
+                            android:id="@+id/health_imgIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/ic_facemask"
+                            app:tint="#FF439576" />
+
+                        <TextView
+                            android:id="@+id/health_txtStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Negative"
+                            android:textAlignment="center" />
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

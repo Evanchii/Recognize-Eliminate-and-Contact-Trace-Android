@@ -79,7 +79,7 @@
                 android:padding="8dp">
 
                 <TextView
-                    android:id="@+id/regInfo"
+                    android:id="@+id/profile_info1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
@@ -93,11 +93,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
+                    android:enabled="false"
                     android:fontFamily="@font/asap"
                     android:inputType="textPersonName" />
 
                 <TextView
-                    android:id="@+id/regInfo2"
+                    android:id="@+id/profile_info2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
@@ -111,11 +112,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
+                    android:enabled="false"
                     android:fontFamily="@font/asap"
                     android:inputType="textPersonName" />
 
                 <TextView
-                    android:id="@+id/regTitle"
+                    android:id="@+id/profile_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
@@ -126,7 +128,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/profile_txtAdd1"
+                    android:id="@+id/profile_info3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
@@ -136,15 +138,16 @@
                     android:textSize="16sp" />
 
                 <EditText
-                    android:id="@+id/profile_txtAdd2"
+                    android:id="@+id/profile_txtAdd1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
+                    android:enabled="false"
                     android:fontFamily="@font/asap"
                     android:inputType="textPersonName" />
 
                 <TextView
-                    android:id="@+id/regInfo4"
+                    android:id="@+id/profile_info4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
@@ -153,24 +156,28 @@
                     android:textColor="#333333"
                     android:textSize="16sp" />
 
-                <EditText
-                    android:id="@+id/reg_addCo2"
+                <Spinner
+                    android:id="@+id/profile_addBa"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:fontFamily="@font/asap"
-                    android:inputType="textLongMessage" />
+                    android:entries="@array/barangay" />
+
+                <TextView
+                    android:id="@+id/profile_addCiCo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/profile_fabEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="12dp"
         android:clickable="true"
+        android:onClick="changeMode"
         app:backgroundTint="#D4E3FC"
         app:fabSize="mini"
         app:layout_constraintEnd_toEndOf="parent"

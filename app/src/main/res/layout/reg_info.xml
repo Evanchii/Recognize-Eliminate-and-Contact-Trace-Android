@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:fontFamily="@font/asap"
-                android:inputType="textPersonName" />
+                android:inputType="number" />
 
             <TextView
                 android:id="@+id/regInfo05"
@@ -151,7 +151,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:fontFamily="@font/asap"
-                android:inputType="textPersonName" />
+                android:inputType="date" />
 
             <TextView
                 android:id="@+id/regTitle2"
@@ -268,7 +268,7 @@
                 android:ems="10"
                 android:enabled="false"
                 android:fontFamily="@font/asap"
-                android:inputType="textPersonName"
+                android:inputType="number"
                 android:text="2400" />
 
             <androidx.appcompat.widget.AppCompatButton

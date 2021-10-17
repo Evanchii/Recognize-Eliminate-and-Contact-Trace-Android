@@ -8,11 +8,15 @@ import androidx.cardview.widget.CardView;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.navigation.NavigationView;
 
 import org.jetbrains.annotations.NotNull;
@@ -20,6 +24,10 @@ import org.jetbrains.annotations.NotNull;
 public class Health extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private ActionBarDrawerToggle actionBarDrawerToggle;
+    boolean status = false;
+    MaterialCardView cardStatus;
+    TextView textStatus;
+    ImageView imgStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +52,11 @@ public class Health extends AppCompatActivity implements NavigationView.OnNaviga
         headerCard.setOnClickListener(v -> {
             startActivity(new Intent(this, Profile.class));
         });
+
+        cardStatus = findViewById(R.id.health_cardStatus);
+        textStatus = findViewById(R.id.health_txtStatus);
+        imgStatus = findViewById(R.id.health_imgIcon);
+        status = false;
     }
 
     @Override
@@ -59,5 +72,24 @@ public class Health extends AppCompatActivity implements NavigationView.OnNaviga
         if(CommonFunctions.menu(this, item, "Health Status"))
             finish();
         return true;
+    }
+
+    private void setStatus() {
+        if(status) {
+            //set confirm dialog box
+            cardStatus.setStrokeColor(Color.parseColor("#FFA83C52"));
+            textStatus.setText("Positive");
+            imgStatus.setColorFilter(Color.parseColor("#FFFE254A"));
+        } else {
+            //set confirm dialog box
+            cardStatus.setStrokeColor(Color.parseColor("#FF4A9F7E"));
+            textStatus.setText("Negative");
+            imgStatus.setColorFilter(Color.parseColor("#FF439576"));
+        }
+    }
+
+    public void healthStatus(View view) {
+        status = !status;
+        setStatus();
     }
 }

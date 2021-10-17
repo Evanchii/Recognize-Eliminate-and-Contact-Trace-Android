@@ -61,10 +61,17 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     }
 
     public void locationHistory(View view) {
+        finish();
         startActivity(new Intent(Dashboard.this, Location.class));
     }
 
     public void healthStatus(View view) {
+        finish();
         startActivity(new Intent(Dashboard.this, Health.class));
+    }
+
+    public void showCases(View view) {
+        finish();
+        startActivity(new Intent(Dashboard.this, Cases.class));
     }
 }

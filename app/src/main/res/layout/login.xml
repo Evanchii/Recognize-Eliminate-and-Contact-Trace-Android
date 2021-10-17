@@ -45,7 +45,7 @@
                 android:fontFamily="@font/quicksand"
                 android:text="Welcome,"
                 android:textColor="#FFFFFF"
-                android:textSize="50sp"
+                android:textSize="30sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -55,7 +55,7 @@
                 android:fontFamily="@font/quicksand"
                 android:text="Please sign in to continue!"
                 android:textColor="#FFFFFF"
-                android:textSize="22sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -155,7 +155,7 @@
                     android:fontFamily="@font/asap"
                     android:text="Don't have an account?"
                     android:textColor="#FFFFFF"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/login_btnReg"
@@ -169,11 +169,13 @@
                     android:layout_height="wrap_content"
                     android:background="#00FFFFFF"
                     android:fontFamily="@font/asap"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
                     android:onClick="signUp"
                     android:text="Register Here"
                     android:textAllCaps="false"
                     android:textColor="#EDC0B1"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     app:iconPadding="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"

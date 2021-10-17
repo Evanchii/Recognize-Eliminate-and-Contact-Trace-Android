@@ -22,9 +22,9 @@ public class Splashscreen extends AppCompatActivity {
         setContentView(R.layout.splashscreen);
 
 
-        ActivityCompat.requestPermissions(Splashscreen.this,
-                new String[]{Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                1);
+//        ActivityCompat.requestPermissions(Splashscreen.this,
+//                new String[]{Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+//                1);
         ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() != NetworkInfo.State.CONNECTED &&
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() != NetworkInfo.State.CONNECTED) {
@@ -40,7 +40,7 @@ public class Splashscreen extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent=new Intent(Splashscreen.this, RegFace.class);
+                Intent intent=new Intent(Splashscreen.this, Login.class);
                 startActivity(intent);
                 finish();
             }

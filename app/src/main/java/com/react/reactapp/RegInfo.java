@@ -11,18 +11,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 
 import java.util.HashMap;
 
 public class RegInfo extends AppCompatActivity {
 
-    private EditText fName, mName, lName, cNo, email, dob, addNo, addCo, addPro, addCi, addBa, addZi;
     HashMap<String, String> info = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reg_info);
+        findViewById(R.id.reg_addCi).setEnabled(false);
+        findViewById(R.id.reg_addCo).setEnabled(false);
+        findViewById(R.id.reg_addPro).setEnabled(false);
     }
 
     private void findAllEditTexts(ViewGroup viewGroup) {
@@ -37,6 +40,13 @@ public class RegInfo extends AppCompatActivity {
                 info.put(
                         String.valueOf(editText.getId()).replace("reg_",""),
                         editText.getText().toString()
+                );
+            }
+            else if (view instanceof Spinner) {
+                Spinner spinner = (Spinner) view;
+                info.put(
+                        String.valueOf(spinner.getId()).replace("reg_",""),
+                        spinner.getSelectedItem().toString()
                 );
             }
         }
