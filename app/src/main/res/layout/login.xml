@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ph_logo" />
+        app:srcCompat="@drawable/logo" />
 
     <ScrollView
         android:id="@+id/login_scrView"
@@ -78,6 +78,7 @@
                 android:fontFamily="@font/asap"
                 android:hint="example@email.com"
                 android:inputType="textEmailAddress"
+                android:padding="12dp"
                 android:textColor="#FFFFFF"
                 android:textColorHint="#B1B1B1" />
 
@@ -96,10 +97,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="5dp"
-                app:boxBackgroundColor="#0C59CF"
-                app:boxBackgroundMode="none"
-                app:boxCollapsedPaddingTop="0dp"
-                app:boxStrokeColor="@null"
+                app:boxBackgroundColor="@color/primary_color"
+                app:boxStrokeColor="@color/black"
                 app:helperTextTextColor="#FFFFFF"
                 app:hintAnimationEnabled="false"
                 app:hintEnabled="false"

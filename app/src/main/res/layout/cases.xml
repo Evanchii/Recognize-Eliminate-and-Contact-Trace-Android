@@ -32,7 +32,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/asap"
-                    android:text="CITY"
+                    android:text="DAGUPAN CITY"
                     android:textColor="@color/white"
                     android:textSize="26sp"
                     android:textStyle="bold"

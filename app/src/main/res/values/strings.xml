@@ -13,6 +13,7 @@
         <string name="tab_text_2">Tab 2</string>
         <string name="Open">Open</string>
         <string name="Close">Close</string>
+        <string name="logo_txt">logo_txt</string>
 
         <string-array name="country">
             <item>Philippines</item>

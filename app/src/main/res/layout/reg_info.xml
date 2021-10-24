@@ -55,13 +55,24 @@
                 android:textColor="#333333"
                 android:textSize="16sp" />
 
-            <EditText
-                android:id="@+id/reg_fName"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/reg_layFName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:fontFamily="@font/asap"
-                android:inputType="textPersonName" />
+                app:boxBackgroundColor="@null"
+                app:boxCollapsedPaddingTop="0dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/reg_fName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/asap"
+                    android:inputType="textPersonName"
+                    android:tag="fName"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/regInfo02"
@@ -73,13 +84,24 @@
                 android:textColor="#333333"
                 android:textSize="16sp" />
 
-            <EditText
-                android:id="@+id/reg_mName"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/reg_layMName"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:fontFamily="@font/asap"
-                android:inputType="textPersonName" />
+                android:layout_height="match_parent"
+                app:boxBackgroundColor="@null"
+                app:boxCollapsedPaddingTop="0dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/reg_mName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/asap"
+                    android:inputType="textPersonName"
+                    android:tag="mName"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/regInfo03"
@@ -91,13 +113,24 @@
                 android:textColor="#333333"
                 android:textSize="16sp" />
 
-            <EditText
-                android:id="@+id/reg_lName"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/reg_layLName"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:fontFamily="@font/asap"
-                android:inputType="textPersonName" />
+                android:layout_height="match_parent"
+                app:boxBackgroundColor="@null"
+                app:boxCollapsedPaddingTop="0dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/reg_lName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/asap"
+                    android:inputType="textPersonName"
+                    android:tag="lName"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/regInfo04"
@@ -109,13 +142,24 @@
                 android:textColor="#333333"
                 android:textSize="16sp" />
 
-            <EditText
-                android:id="@+id/reg_cNo"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/reg_layCNo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:fontFamily="@font/asap"
-                android:inputType="number" />
+                android:layout_height="match_parent"
+                app:boxBackgroundColor="@null"
+                app:boxCollapsedPaddingTop="0dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/reg_cNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/asap"
+                    android:inputType="number"
+                    android:tag="cNo"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/regInfo05"
@@ -127,13 +171,24 @@
                 android:textColor="#333333"
                 android:textSize="16sp" />
 
-            <EditText
-                android:id="@+id/reg_email"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/reg_layEmail"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:fontFamily="@font/asap"
-                android:inputType="textPersonName" />
+                android:layout_height="match_parent"
+                app:boxBackgroundColor="@null"
+                app:boxCollapsedPaddingTop="0dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/reg_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/asap"
+                    android:inputType="textPersonName"
+                    android:tag="email"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/regInfo06"
@@ -145,13 +200,24 @@
                 android:textColor="#333333"
                 android:textSize="16sp" />
 
-            <EditText
-                android:id="@+id/reg_DoB"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/reg_layDoB"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:fontFamily="@font/asap"
-                android:inputType="date" />
+                android:layout_height="match_parent"
+                app:boxBackgroundColor="@null"
+                app:boxCollapsedPaddingTop="0dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/reg_DoB"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/asap"
+                    android:inputType="textPersonName"
+                    android:tag="DoB"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/regTitle2"
@@ -174,13 +240,24 @@
                 android:textColor="#333333"
                 android:textSize="16sp" />
 
-            <EditText
-                android:id="@+id/reg_addNo"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/reg_layAddNo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:fontFamily="@font/asap"
-                android:inputType="textPersonName" />
+                android:layout_height="match_parent"
+                app:boxBackgroundColor="@null"
+                app:boxCollapsedPaddingTop="0dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/reg_addNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="@font/asap"
+                    android:inputType="textPersonName"
+                    android:tag="addNo"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/regInfo08"
@@ -197,7 +274,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:clickable="false"
-                android:entries="@array/country" />
+                android:entries="@array/country"
+                android:tag="addCo" />
 
             <TextView
                 android:id="@+id/regInfo09"
@@ -214,7 +292,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:clickable="false"
-                android:entries="@array/province" />
+                android:entries="@array/province"
+                android:tag="addPro" />
 
             <TextView
                 android:id="@+id/regInfo10"
@@ -231,7 +310,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:clickable="false"
-                android:entries="@array/city" />
+                android:entries="@array/city"
+                android:tag="addCi" />
 
             <TextView
                 android:id="@+id/regInfo11"
@@ -248,7 +328,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:clickable="false"
-                android:entries="@array/barangay" />
+                android:entries="@array/barangay"
+                android:tag="addBa" />
 
             <TextView
                 android:id="@+id/regInfo12"
@@ -260,16 +341,26 @@
                 android:textColor="#333333"
                 android:textSize="16sp" />
 
-            <EditText
-                android:id="@+id/reg_addZip"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/reg_layAddZip"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:editable="false"
-                android:ems="10"
-                android:enabled="false"
-                android:fontFamily="@font/asap"
-                android:inputType="number"
-                android:text="2400" />
+                android:layout_height="match_parent"
+                app:boxBackgroundColor="@null"
+                app:boxCollapsedPaddingTop="0dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/reg_addZip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:enabled="false"
+                    android:fontFamily="@font/asap"
+                    android:inputType="number"
+                    android:tag="addZip"
+                    android:text="2400"
+                    android:textColor="#CCCCCC"
+                    android:textSize="18sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/regInfo_btnNext"

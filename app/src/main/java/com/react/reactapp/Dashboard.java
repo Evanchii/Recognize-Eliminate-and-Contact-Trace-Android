@@ -8,18 +8,34 @@ import androidx.cardview.widget.CardView;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.sql.Timestamp;
 
 public class Dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private ActionBarDrawerToggle actionBarDrawerToggle;
+    private FirebaseAuth mAuth;
+    private DatabaseReference dbRef;
+    private CommonFunctions cf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +44,11 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         getSupportActionBar().setTitle("REaCT");
         setContentView(R.layout.dashboard);
 
-        new CommonFunctions().fetchHamburgerDetails((NavigationView) findViewById(R.id.navigation_view));
+        mAuth = FirebaseAuth.getInstance();
+        dbRef = FirebaseDatabase.getInstance().getReference().child("appData").child("links");
+
+        cf = new CommonFunctions();
+        cf.fetchHamburgerDetails((NavigationView) findViewById(R.id.navigation_view));
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawerButton);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
@@ -44,6 +64,20 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         headerCard.setOnClickListener(v -> {
             startActivity(new Intent(this, Profile.class));
         });
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                String situationer = String.valueOf(snapshot.child("situationer").getValue());
+                ((ImageView) findViewById(R.id.dash_imgSituationer)).setImageBitmap(cf.getBitmapFromURL(situationer));
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {}
+        });
     }
 
     @Override
@@ -55,7 +89,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
     @Override
     public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
-        if(CommonFunctions.menu(this, item, "Dashboard"))
+        if (CommonFunctions.menu(this, item, "Dashboard"))
             finish();
         return true;
     }
@@ -73,5 +107,10 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
     public void showCases(View view) {
         finish();
         startActivity(new Intent(Dashboard.this, Cases.class));
+    }
+
+    public void debug(View view) {
+        Toast.makeText(Dashboard.this, String.valueOf(new Timestamp(System.currentTimeMillis()).getTime()), Toast.LENGTH_LONG).show();
+        Log.d("Debug Dash> ","Current timestamp: " + String.valueOf(new Timestamp(System.currentTimeMillis()).getTime()));
     }
 }

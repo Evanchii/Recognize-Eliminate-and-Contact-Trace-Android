@@ -35,20 +35,12 @@
                     app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="250dp">
 
-                    <androidx.cardview.widget.CardView
+                    <ImageView
+                        android:id="@+id/profile_imgDP"
                         android:layout_width="250dp"
                         android:layout_height="250dp"
-                        android:layout_gravity="center"
-                        app:cardCornerRadius="250dp">
-
-                        <ImageView
-                            android:id="@+id/profile_imgDP"
-                            android:layout_width="250dp"
-                            android:layout_height="250dp"
-                            android:scaleType="centerCrop"
-                            app:srcCompat="@drawable/ph_avatar" />
-
-                    </androidx.cardview.widget.CardView>
+                        android:scaleType="centerCrop"
+                        app:srcCompat="@drawable/ph_avatar" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -165,7 +157,9 @@
                 <TextView
                     android:id="@+id/profile_addCiCo"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

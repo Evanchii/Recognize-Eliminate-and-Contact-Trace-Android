@@ -17,6 +17,7 @@
         android:focusable="true">
 
         <LinearLayout
+            android:id="@+id/header_ll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -25,27 +26,19 @@
             android:paddingEnd="32dp">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/header_cvFace"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="250dp">
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    app:cardCornerRadius="250dp">
-
-                    <ImageView
-                        android:id="@+id/regFace_imgFace"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:scaleType="centerCrop"
-                        app:srcCompat="@drawable/ph_avatar" />
-
-                </androidx.cardview.widget.CardView>
-
+                <ImageView
+                    android:id="@+id/header_face"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/ph_avatar" />
             </androidx.cardview.widget.CardView>
 
             <TextView
@@ -60,7 +53,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/header_email"
+                android:id="@+id/header_viewProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"

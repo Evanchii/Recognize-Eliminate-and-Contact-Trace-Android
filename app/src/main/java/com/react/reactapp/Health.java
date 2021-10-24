@@ -7,6 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,13 +21,21 @@ import android.widget.TextView;
 
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
 public class Health extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private ActionBarDrawerToggle actionBarDrawerToggle;
-    boolean status = false;
+    private FirebaseAuth mAuth;
+    private DatabaseReference dbRef;
+    boolean status;
     MaterialCardView cardStatus;
     TextView textStatus;
     ImageView imgStatus;
@@ -35,6 +46,18 @@ public class Health extends AppCompatActivity implements NavigationView.OnNaviga
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setTitle("Health Status");
         setContentView(R.layout.health);
+
+        mAuth = FirebaseAuth.getInstance();
+        dbRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid()).child("info").child("status");
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                status = (boolean) snapshot.getValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {}
+        });
 
         new CommonFunctions().fetchHamburgerDetails((NavigationView) findViewById(R.id.navigation_view));
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawerButton);
@@ -57,6 +80,8 @@ public class Health extends AppCompatActivity implements NavigationView.OnNaviga
         textStatus = findViewById(R.id.health_txtStatus);
         imgStatus = findViewById(R.id.health_imgIcon);
         status = false;
+
+        setStatus();
     }
 
     @Override
@@ -76,12 +101,10 @@ public class Health extends AppCompatActivity implements NavigationView.OnNaviga
 
     private void setStatus() {
         if(status) {
-            //set confirm dialog box
             cardStatus.setStrokeColor(Color.parseColor("#FFA83C52"));
             textStatus.setText("Positive");
             imgStatus.setColorFilter(Color.parseColor("#FFFE254A"));
         } else {
-            //set confirm dialog box
             cardStatus.setStrokeColor(Color.parseColor("#FF4A9F7E"));
             textStatus.setText("Negative");
             imgStatus.setColorFilter(Color.parseColor("#FF439576"));
@@ -89,7 +112,18 @@ public class Health extends AppCompatActivity implements NavigationView.OnNaviga
     }
 
     public void healthStatus(View view) {
-        status = !status;
-        setStatus();
+        AlertDialog.Builder confirm = new AlertDialog.Builder(Health.this)
+                .setTitle("Confirm Action")
+                .setMessage("Change COVID-19 Status? This will send an alert to the LGU and DOH")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    status = !status;
+                    dbRef.setValue(status);
+                    setStatus();
+                    dialog.dismiss();
+                })
+                .setNegativeButton("No", (dialog, which) -> {
+                    dialog.dismiss();
+                });
+        confirm.show();
     }
 }

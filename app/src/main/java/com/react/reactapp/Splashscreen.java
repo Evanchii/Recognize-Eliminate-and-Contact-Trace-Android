@@ -13,6 +13,9 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class Splashscreen extends AppCompatActivity {
 
     @Override
@@ -21,29 +24,26 @@ public class Splashscreen extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.splashscreen);
 
+//        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+//        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() != NetworkInfo.State.CONNECTED &&
+//                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() != NetworkInfo.State.CONNECTED) {
+//            AlertDialog.Builder noConn = new AlertDialog.Builder(Splashscreen.this);
+//            noConn.setTitle("Not Connected")
+//                    .setMessage("Please connected to the internet")
+//                    .setPositiveButton("OK", (dialog, which) -> {
+//                    })
+//                    .setCancelable(false)
+//                    .show();
+//        }
 
-//        ActivityCompat.requestPermissions(Splashscreen.this,
-//                new String[]{Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
-//                1);
-        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() != NetworkInfo.State.CONNECTED &&
-                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() != NetworkInfo.State.CONNECTED) {
-            AlertDialog.Builder noConn = new AlertDialog.Builder(Splashscreen.this);
-            noConn.setTitle("Not Connected")
-                    .setMessage("Please connected to the internet")
-                    .setPositiveButton("OK", (dialog, which) -> {})
-                    .setCancelable(false)
-                    .show();
-        }
+        FirebaseApp.initializeApp(this);
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-        Handler handler=new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent=new Intent(Splashscreen.this, Login.class);
-                startActivity(intent);
-                finish();
-            }
-        },2500);
+        Handler handler = new Handler();
+        Intent intent = (mAuth.getCurrentUser() != null) ? new Intent(Splashscreen.this, Dashboard.class) : new Intent(Splashscreen.this, Login.class);
+        handler.postDelayed(() -> {
+            startActivity(intent);
+            finish();
+        }, 2500);
     }
 }
