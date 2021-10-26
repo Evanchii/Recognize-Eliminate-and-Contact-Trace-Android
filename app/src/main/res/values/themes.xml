@@ -38,6 +38,11 @@
         <item name="android:color">#0C59CF</item>
     </style>
 
+    <style name="AppTheme.RoundedButtonLightBlue" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/cust_button_lightblue</item>
+        <item name="android:color">#000000</item>
+    </style>
+
     <style name="AppTheme.RoundedButtonBlue" parent="Widget.AppCompat.Button.Colored">
         <item name="android:background">@drawable/cust_button_blue</item>
         <item name="android:color">#FFFFFF</item>

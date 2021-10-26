@@ -24,18 +24,6 @@ public class Splashscreen extends AppCompatActivity {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.splashscreen);
 
-//        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-//        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() != NetworkInfo.State.CONNECTED &&
-//                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() != NetworkInfo.State.CONNECTED) {
-//            AlertDialog.Builder noConn = new AlertDialog.Builder(Splashscreen.this);
-//            noConn.setTitle("Not Connected")
-//                    .setMessage("Please connected to the internet")
-//                    .setPositiveButton("OK", (dialog, which) -> {
-//                    })
-//                    .setCancelable(false)
-//                    .show();
-//        }
-
         FirebaseApp.initializeApp(this);
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
 

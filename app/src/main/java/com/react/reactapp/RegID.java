@@ -5,6 +5,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ public class RegID extends AppCompatActivity {
 
     HashMap<String, String> info;
     private Uri URIid;
+    ActivityResultLauncher<Intent> openActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,15 @@ public class RegID extends AppCompatActivity {
         setContentView(R.layout.reg_id);
         Intent intent = getIntent();
         info = (HashMap<String, String>) intent.getSerializableExtra("info");
+
+        openActivity = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        setResult(Activity.RESULT_OK);
+                        finish();
+                    }
+                });
 
         ActivityResultLauncher<Uri> cameraIntent = registerForActivityResult(
                 new ActivityResultContracts.TakePicture(),
@@ -71,10 +82,8 @@ public class RegID extends AppCompatActivity {
     public void submit(View view) {
         //Call API
         if(true/*success*/) {
-            System.out.print("Debug"+info.keySet());
             info.put("ID", String.valueOf(URIid));
-            startActivity((new Intent(RegID.this, RegPassword.class)).putExtra("info", info));
-            finish();
+            openActivity.launch((new Intent(RegID.this, RegPassword.class)).putExtra("info", info).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
         }
     }
 }

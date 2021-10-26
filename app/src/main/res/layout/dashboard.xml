@@ -24,16 +24,6 @@
                 android:layout_height="wrap_content"
                 android:background="@color/primary_color">
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/floatingActionButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:onClick="debug"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-                    app:srcCompat="@drawable/ic_launcher_foreground" />
-
                 <LinearLayout
                     android:id="@+id/linearLayout"
                     android:layout_width="match_parent"

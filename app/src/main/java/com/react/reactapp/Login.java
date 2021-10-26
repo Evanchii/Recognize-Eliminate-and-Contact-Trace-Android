@@ -62,12 +62,11 @@ public class Login extends AppCompatActivity {
 
         resetDialog.setPositiveButton("Reset", (dialog, which) -> {
             String email = reset.getText().toString().trim();
-//            mAuth.sendPasswordResetEmail(email)
-//                    .addOnSuccessListener(aVoid -> Toast.makeText(Login.this, "Password Reset Email sent!", Toast.LENGTH_LONG).show())
-//                    .addOnFailureListener(e -> Toast.makeText(Login.this, "An error has occured!", Toast.LENGTH_LONG).show());
-//        }).setNegativeButton("Cancel", (dialog, which) -> {});
+            mAuth.sendPasswordResetEmail(email)
+                    .addOnSuccessListener(aVoid -> Toast.makeText(Login.this, "Password Reset Email sent!", Toast.LENGTH_LONG).show())
+                    .addOnFailureListener(e -> Toast.makeText(Login.this, "An error has occurred!", Toast.LENGTH_LONG).show());
+        }).setNegativeButton("Cancel", (dialog, which) -> {});
         resetDialog.create().show();
-        });
     }
 
     public void logIn(View view) {
@@ -75,90 +74,47 @@ public class Login extends AppCompatActivity {
         scr = (ScrollView) findViewById(R.id.login_scrView);
         login_email = (EditText) findViewById(R.id.login_eTxtEmail);
         login_password = (EditText) findViewById(R.id.login_eTxtPass);
+        TextInputLayout password = (TextInputLayout) login_password.getParent().getParent()
+                , email = (TextInputLayout) login_password.getParent().getParent();
 
         if (!login_email.getText().toString().trim().isEmpty() && !login_password.getText().toString().isEmpty()) {
             dialog = ProgressDialog.show(Login.this, "Please wait", "Logging in...", true);
-            mAuth.signInWithEmailAndPassword(String.valueOf(login_email.getText()), String.valueOf(login_password.getText())).addOnCompleteListener(task -> {
-                if (task.isComplete()) {
-                    String userID = mAuth.getCurrentUser().getUid();
-                    if (mAuth.getCurrentUser().isEmailVerified()) {
-                        finish();
-                        startActivity(new Intent(Login.this, Dashboard.class));
+            mAuth.signInWithEmailAndPassword(String.valueOf(login_email.getText()), String.valueOf(login_password.getText())).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
+                    if (task.isComplete()) {
+                        String userID = mAuth.getCurrentUser().getUid();
+                        if (mAuth.getCurrentUser().isEmailVerified()) {
+                            finish();
+                            startActivity(new Intent(Login.this, Dashboard.class));
+                        } else {
+                            AlertDialog.Builder confEmail = new AlertDialog.Builder(Login.this);
+                            confEmail.setTitle("We sent you an email")
+                                    .setMessage("Please check your inbox/spam to confirm your email address.")
+                                    .setPositiveButton("OK", (dialog, which) -> mAuth.signOut())
+                                    .setNegativeButton("Resend Email", (dialog, which) -> {
+                                        mAuth.getCurrentUser().sendEmailVerification();
+                                        mAuth.signOut();
+                                    })
+                                    .setCancelable(false).show();
+                            dialog.dismiss();
+                        }
                     } else {
-                        AlertDialog.Builder confEmail = new AlertDialog.Builder(Login.this);
-                        confEmail.setTitle("We sent you an email")
-                                .setMessage("Please check your inbox/spam to confirm your email address.")
-                                .setPositiveButton("OK", (dialog, which) -> mAuth.signOut())
-                                .setNegativeButton("Resend Email", (dialog, which) -> {
-                                    mAuth.getCurrentUser().sendEmailVerification();
-                                    mAuth.signOut();
-                                })
-                                .setCancelable(false).show();
+                        email.setError("Email/Password is Incorrect");
+                        email.setErrorEnabled(true);
+                        password.setErrorEnabled(true);
+                        scr.smoothScrollTo(0, 0);
                         dialog.dismiss();
                     }
-                } else {
-                    System.out.println("Error Login");
-                    ((TextInputLayout) login_password.getParent().getParent()).setErrorEnabled(true);
-//                    error.setText("Wrong Email/Password");
-                    scr.smoothScrollTo(0, 0);
-//                    error.setVisibility(View.VISIBLE);
-                    dialog.dismiss();
                 }
             });
-//            mAuth.signInWithEmailAndPassword(String.valueOf(login_email.getText()),String.valueOf(login_password.getText())).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//                @Override
-//                public void onComplete(@NonNull Task<AuthResult> task) {
-//                    if(task.isSuccessful()){
-//                        //Check user exist
-//                        String userID = mAuth.getCurrentUser().getUid();
-//                        loginDbRef.addValueEventListener(new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                                if(snapshot.hasChild(userID)){
-//                                    if(mAuth.getCurrentUser().isEmailVerified()) {
-//                                        startActivity(new Intent(Login.this, Dashboard.class));
-//                                        dialog.dismiss();
-//                                        loginDbRef.removeEventListener(this);
-//                                        finish();
-//                                    }
-//                                    else {
-//                                        AlertDialog.Builder confEmail = new AlertDialog.Builder(Login.this);
-//                                        confEmail.setTitle("We sent you an email")
-//                                                .setMessage("Please check your inbox/spam to confirm your email address.")
-//                                                .setPositiveButton("OK", (dialog, which) -> mAuth.signOut())
-//                                                .setNegativeButton("Resend Email", (dialog, which) -> {mAuth.getCurrentUser().sendEmailVerification(); mAuth.signOut();})
-//                                                .setCancelable(false).show();
-//                                        dialog.dismiss();
-//                                    }
-//                                }else{
-//                                    System.out.println("You don't have Account yet");
-//                                    error.setText("Account doesn't exist!");
-//                                    scr.smoothScrollTo(0,0);
-//                                    error.setVisibility(View.VISIBLE);
-//                                    dialog.dismiss();
-//                                }
-//                            }
-//                            @Override
-//                            public void onCancelled(@NonNull DatabaseError error) {}
-//                        });
-//                    }else {
-//                        System.out.println("Error Login");
-//                        error.setText("Wrong Email/Password");
-//                        scr.smoothScrollTo(0,0);
-//                        error.setVisibility(View.VISIBLE);
-//                        dialog.dismiss();
-//                    }
-//                }
-//            });
-//        } else {
-//            System.out.println("Error Empty");
-//            error.setText("Enter all required data!");
-//            scr.smoothScrollTo(0,0);
-//            error.setVisibility(View.VISIBLE);
-//        }
         }
         else {
-            //set error
+            email.setError("Required");
+            email.setErrorEnabled(true);
+            password.setErrorEnabled(true);
+            scr.smoothScrollTo(0, 0);
+            dialog.dismiss();
         }
     }
 

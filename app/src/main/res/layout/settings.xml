@@ -27,9 +27,31 @@
                 android:padding="16dp">
 
                 <Button
+                    android:id="@+id/settings_btnPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="12dp"
+                    android:background="#00FFFFFF"
+                    android:fontFamily="@font/asap"
+                    android:text="Change Password"
+                    android:textAlignment="textStart"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    app:icon="@drawable/ic_lock"
+                    app:iconTint="#000000" />
+
+                <View
+                    android:id="@+id/divider3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider" />
+
+                <Button
                     android:id="@+id/settings_btnAbout"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:layout_marginTop="12dp"
                     android:background="#00FFFFFF"
                     android:fontFamily="@font/asap"
                     android:text="About"

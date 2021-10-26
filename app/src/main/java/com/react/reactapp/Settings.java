@@ -54,9 +54,13 @@ public class Settings extends AppCompatActivity implements NavigationView.OnNavi
             startActivity(new Intent(this, Profile.class));
         });
 
-        Button about = (Button) findViewById(R.id.settings_btnAbout),
+        Button password = (Button) findViewById(R.id.settings_btnPassword),
+                about = (Button) findViewById(R.id.settings_btnAbout),
                 privacy = (Button) findViewById(R.id.settings_btnPrivacy),
                 logout = (Button) findViewById(R.id.settings_btnLogOut);
+        password.setOnClickListener(v -> {
+            startActivity(new Intent(Settings.this, Password.class));
+        });
         about.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://react.alevan.ga/about/"))));
         privacy.setOnClickListener(v -> startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://react.alevan.ga/privacy/"))));
         logout.setOnClickListener(v -> {

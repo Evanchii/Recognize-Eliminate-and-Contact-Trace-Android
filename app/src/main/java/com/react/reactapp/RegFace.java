@@ -5,6 +5,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ public class RegFace extends AppCompatActivity {
 
     HashMap<String, String> info;
     private Uri URIFace;
+    ActivityResultLauncher<Intent> openActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,15 @@ public class RegFace extends AppCompatActivity {
         setContentView(R.layout.reg_face);
         Intent intent = getIntent();
         info = (HashMap<String, String>) intent.getSerializableExtra("userInfo");
+
+        openActivity = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        setResult(Activity.RESULT_OK);
+                        finish();
+                    }
+                });
 
         ActivityResultLauncher<Uri> cameraIntent = registerForActivityResult(
                 new ActivityResultContracts.TakePicture(),
@@ -72,8 +83,7 @@ public class RegFace extends AppCompatActivity {
         //Call API
         if(true/*success*/) {
             info.put("faceID", String.valueOf(URIFace));
-            startActivity((new Intent(RegFace.this, RegID.class)).putExtra("info", info));
-            finish();
+            openActivity.launch((new Intent(RegFace.this, RegID.class)).putExtra("info", info).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
         }
     }
 }

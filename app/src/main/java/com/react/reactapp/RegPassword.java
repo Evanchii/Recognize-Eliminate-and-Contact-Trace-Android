@@ -3,7 +3,9 @@ package com.react.reactapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -40,6 +42,8 @@ public class RegPassword extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private StorageReference mStorage;
     private DatabaseReference signupDbRef;
+    CheckBox ToS;
+    private ProgressDialog progUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +54,8 @@ public class RegPassword extends AppCompatActivity {
         mAuth= FirebaseAuth.getInstance();
         mStorage= FirebaseStorage.getInstance().getReference();
 
-        CheckBox ToS = findViewById(R.id.regPass_chkToS);
+
+        ToS = findViewById(R.id.regPass_chkToS);
         String text = "I agree to the Terms and Service\nand Privacy Policy";
         SpannableString ss = new SpannableString(text);
         ClickableSpan cS1 = new ClickableSpan() {
@@ -81,15 +86,11 @@ public class RegPassword extends AppCompatActivity {
         Uri face = Uri.parse(info.get("faceID")),
                 ID = Uri.parse(info.get("ID"));
 
-
-        signupDbRef.child("faceID").setValue("Face/"+mAuth.getCurrentUser().getUid().toString() +"."+ face.getLastPathSegment().split("\\.")[1]);
-        signupDbRef.child("ID").setValue("ID/"+mAuth.getCurrentUser().getUid().toString() +"."+ ID.getLastPathSegment().split("\\.")[1]);
-
         StorageReference filepathFace = mStorage.child("Face").child(mAuth.getCurrentUser().getUid().toString() +"."+ face.getLastPathSegment().split("\\.")[1]);
         filepathFace.putFile(face).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                    dRegister.put("UrlLicense",taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
+                signupDbRef.child("faceID").setValue("Face/"+mAuth.getCurrentUser().getUid().toString() +"."+ face.getLastPathSegment().split("\\.")[1]);
 //                progUp.dismiss();
                 finish();
             }
@@ -99,7 +100,7 @@ public class RegPassword extends AppCompatActivity {
         filepathID.putFile(ID).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                    dRegister.put("UrlLicense",taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
+                signupDbRef.child("ID").setValue("ID/"+mAuth.getCurrentUser().getUid().toString() +"."+ ID.getLastPathSegment().split("\\.")[1]);
 //                progUp.dismiss();
                 finish();
             }
@@ -107,6 +108,8 @@ public class RegPassword extends AppCompatActivity {
     }
 
     public void Signup(View view) {
+        progUp = ProgressDialog.show(this, "Registering","Please wait as we register you in our database.", true);
+        progUp.setCancelable(false);
         Toast.makeText(RegPassword.this, "Signing up...", Toast.LENGTH_LONG).show();
         TextInputEditText pass = findViewById(R.id.password_txtPass),
                 conf = findViewById(R.id.password_txtConf);
@@ -124,100 +127,66 @@ public class RegPassword extends AppCompatActivity {
                 layPass.setErrorEnabled(true);
             }
             //Register
-            Log.d("PASSWORD>", info.keySet().toString());
-            mAuth.createUserWithEmailAndPassword(info.get("email"), pass.getText().toString().trim())
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
-                            mAuth.getCurrentUser().sendEmailVerification();
-                            AlertDialog.Builder confEmail = new AlertDialog.Builder(RegPassword.this);
-                            String userID=mAuth.getCurrentUser().getUid();
-                            signupDbRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userID).child("info");
-                            signupDbRef.child("Type").setValue("User");
-                            for(String key : info.keySet()) {
-                                if(key.equals("email") || key.equals("faceID") || key.equals("ID")) {
-                                    continue;
+            if(ToS.isChecked()) {
+                Log.d("PASSWORD>", info.keySet().toString());
+                mAuth.createUserWithEmailAndPassword(info.get("email"), pass.getText().toString().trim())
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
+                                mAuth.getCurrentUser().sendEmailVerification();
+                                AlertDialog.Builder confEmail = new AlertDialog.Builder(RegPassword.this);
+                                String userID = mAuth.getCurrentUser().getUid();
+                                signupDbRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userID).child("info");
+                                signupDbRef.child("Type").setValue("User");
+                                for (String key : info.keySet()) {
+                                    if (key.equals("email") || key.equals("faceID") || key.equals("ID")) {
+                                        continue;
+                                    } else {
+                                        signupDbRef.child(key).setValue(info.get(key));
+                                    }
                                 }
-                                else {
-                                    signupDbRef.child(key).setValue(info.get(key));
-                                }
+                                signupDbRef.child("status").setValue(false);
+
+                                upload();
+
+                                progUp.dismiss();
+
+                                confEmail.setTitle("We sent you an email")
+                                        .setMessage("Please check your inbox/spam to confirm your email address.")
+                                        .setPositiveButton("OK", (dialog, which) -> {
+                                            setResult(Activity.RESULT_OK);
+                                            finish();
+                                        }).setCancelable(false).show();
                             }
-                            signupDbRef.child("status").setValue(false);
-
-                            upload();
-
-                            confEmail.setTitle("We sent you an email")
-                                    .setMessage("Please check your inbox/spam to confirm your email address.")
-                                    .setPositiveButton("OK", (dialog, which) -> {
-                                        startActivity(new Intent(RegPassword.this, Login.class));
-                                        finish();
-                                    }).setCancelable(false).show();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull @NotNull Exception e) {
-                    if(e.getMessage().contains("badly formatted")) {
-                        //show dialog
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull @NotNull Exception e) {
+                        progUp.dismiss();
+                        if (e.getMessage().contains("badly formatted")) {
+                            //show dialog
 //                    error.setText("Please enter a valid Email Address");
-                    }
-                    else if(e.getMessage().contains("address is in use by another account")) {
-                        //show dialog
+                        } else if (e.getMessage().contains("address is in use by another account")) {
+                            //show dialog
 //                    error.setText("Email Address is in use by another account!");
-                    }
-                    else if(e.getMessage().contains("6 character")) {
-                        layPass.setError("Password should be at least 6 characters long");
-                    }
-                    else {
-                        layPass.setError(e.getMessage());
-                    }
-                    layPass.setErrorEnabled(true);
-                }
-            });
-            /*mAuth.createUserWithEmailAndPassword(info.get("email"), pass.getText().toString().trim())
-                    .addOnCompleteListener(task -> {
-                        mAuth.getCurrentUser().sendEmailVerification();
-                        AlertDialog.Builder confEmail = new AlertDialog.Builder(RegPassword.this);
-                        String userID=mAuth.getCurrentUser().getUid();
-                        signupDbRef = fdb.child(userID);
-                        signupDbRef.child("Type").setValue("User");
-                        for(String key : info.keySet()) {
-                            if(key.equals("email") || key.equals("faceID") || key.equals("ID")) {
-                                continue;
-                            }
-                            else {
-                                signupDbRef.child(key).setValue(info.get(key));
-                            }
+                        } else if (e.getMessage().contains("6 character")) {
+                            layPass.setError("Password should be at least 6 characters long");
+                        } else {
+                            layPass.setError(e.getMessage());
                         }
-
-                        confEmail.setTitle("We sent you an email")
-                                .setMessage("Please check your inbox/spam to confirm your email address.")
-                                .setPositiveButton("OK", (dialog, which) -> {
-                                    startActivity(new Intent(RegPassword.this, Login.class));
-                                    finish();
-                                }).setCancelable(false).show();
-                    }).addOnFailureListener(e -> {
-                if(e.getMessage().contains("badly formatted")) {
-                    //show dialog
-//                    error.setText("Please enter a valid Email Address");
-                }
-                else if(e.getMessage().contains("address is in use by another account")) {
-                    //show dialog
-//                    error.setText("Email Address is in use by another account!");
-                }
-                else if(e.getMessage().contains("6 character")) {
-                    layPass.setError("Password should be at least 6 characters long");
-                }
-                else {
-                    layPass.setError(e.getMessage());
-                }
-                layPass.setErrorEnabled(true);
-            });*/
+                        layPass.setErrorEnabled(true);
+                    }
+                });
+            } else {
+                progUp.dismiss();
+                Toast.makeText(RegPassword.this, "Terms of Service Agreement Required!", Toast.LENGTH_LONG).show();
+            }
         }
         else {//if password not match
             layPass.setError("Passwords does not match");
             layConf.setError("Passwords does not match");
             layPass.setErrorEnabled(true);
             layConf.setErrorEnabled(true);
+            progUp.dismiss();
         }
     }
 }
