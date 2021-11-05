@@ -10,9 +10,9 @@ This application is the front-end android application thats mainly the registrat
 - Change Account Information and Password
 - Send out an alert if you are COVID-positive or negative
 
-##Get Started
+## Get Started
 The Application is available for Android devices as of now.
-- [Download Android Application](https://github.com/Evanchii/REaCT)
+- [Download Android Application](https://github.com/Evanchii/REaCT/releases/tag/Beta-2.0.0)
 
 #### Demo Accounts:
 ```
