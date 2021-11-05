@@ -161,17 +161,18 @@ public class RegPassword extends AppCompatActivity {
                         }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull @NotNull Exception e) {
-                        progUp.dismiss();
+                        //progUp.dismiss();
                         if (e.getMessage().contains("badly formatted")) {
                             //show dialog
 //                    error.setText("Please enter a valid Email Address");
                         } else if (e.getMessage().contains("address is in use by another account")) {
                             //show dialog
 //                    error.setText("Email Address is in use by another account!");
+                            Toast.makeText(RegPassword.this, "Email Address is in use by another account", Toast.LENGTH_LONG);
                         } else if (e.getMessage().contains("6 character")) {
                             layPass.setError("Password should be at least 6 characters long");
                         } else {
-                            layPass.setError(e.getMessage());
+                            Toast.makeText(RegPassword.this, e.getMessage(), Toast.LENGTH_LONG);
                         }
                         layPass.setErrorEnabled(true);
                     }

@@ -12,7 +12,7 @@ This application is the front-end android application thats mainly the registrat
 
 ## Get Started
 The Application is available for Android devices as of now.
-- [Download Android Application](https://github.com/Evanchii/REaCT/releases/tag/Beta-2.0.0)
+- [Download Android Application](https://github.com/Evanchii/REaCT/releases/tag/Release-1.0)
 
 #### Demo Accounts:
 ```
