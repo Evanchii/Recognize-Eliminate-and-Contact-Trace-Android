@@ -15,6 +15,9 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/Theme.REaCT">
+        <activity
+            android:name=".VaccinationApplication"
+            android:exported="false" />
         <activity android:name=".Password">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

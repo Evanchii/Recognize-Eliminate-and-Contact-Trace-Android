@@ -55,13 +55,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cases_txtCity" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <GridLayout
                     android:id="@+id/relativeLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="4dp"
                     android:layout_marginTop="12dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="4dp"
+                    android:columnCount="3"
+                    android:rowCount="2"
+                    android:useDefaultMargins="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cases_txtDesc">
@@ -70,19 +73,12 @@
                         android:id="@+id/cases_cardCases"
                         android:layout_width="0dp"
                         android:layout_height="100dp"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginTop="6dp"
-                        android:layout_marginEnd="6dp"
-                        android:layout_marginBottom="12dp"
+                        android:layout_rowWeight="1"
+                        android:layout_columnWeight="1"
                         android:minWidth="100dp"
-                        app:cardBackgroundColor="#FFD783"
+                        app:cardBackgroundColor="#1f3571"
                         app:cardCornerRadius="10dp"
-                        app:contentPadding="8dp"
-                        app:layout_constraintBottom_toTopOf="@+id/cases_cardRecoveries"
-                        app:layout_constraintEnd_toStartOf="@+id/cases_cardDeath"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:contentPadding="8dp">
 
                         <LinearLayout
                             android:layout_width="151dp"
@@ -94,8 +90,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/quicksand"
-                                android:gravity="center"
-                                android:text="Cases"
+                                android:text="Total Cases"
                                 android:textColor="@color/white"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
@@ -114,20 +109,15 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/cases_cardDeath"
+                        android:id="@+id/cases_cardTested"
                         android:layout_width="0dp"
                         android:layout_height="100dp"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginEnd="6dp"
+                        android:layout_rowWeight="1"
+                        android:layout_columnWeight="1"
                         android:minWidth="100dp"
-                        app:cardBackgroundColor="#FF8A84"
+                        app:cardBackgroundColor="#1c7de4"
                         app:cardCornerRadius="10dp"
-                        app:contentPadding="8dp"
-                        app:layout_constraintBottom_toTopOf="@+id/cases_cardTested"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/cases_cardCases"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:contentPadding="8dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -135,18 +125,17 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/cases_titleDeath"
+                                android:id="@+id/cases_titleTested"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/quicksand"
-                                android:gravity="center"
-                                android:text="Death"
+                                android:text="Total Tested"
                                 android:textColor="@color/white"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/cases_txtDeath"
+                                android:id="@+id/cases_txtTested"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/quicksand"
@@ -162,18 +151,12 @@
                         android:id="@+id/cases_cardRecoveries"
                         android:layout_width="0dp"
                         android:layout_height="100dp"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginEnd="6dp"
-                        android:layout_marginBottom="6dp"
+                        android:layout_rowWeight="1"
+                        android:layout_columnWeight="1"
                         android:minWidth="100dp"
-                        app:cardBackgroundColor="#92D36E"
+                        app:cardBackgroundColor="#28a745"
                         app:cardCornerRadius="10dp"
-                        app:contentPadding="8dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/cases_cardActive"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/cases_cardCases">
+                        app:contentPadding="8dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -185,8 +168,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/quicksand"
-                                android:gravity="center"
-                                android:text="Recoveries"
+                                android:text="Total Recoveries"
                                 android:textColor="@color/white"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
@@ -205,22 +187,94 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/cases_cardDeath"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:layout_rowWeight="1"
+                        android:layout_columnWeight="1"
+                        android:minWidth="100dp"
+                        app:cardBackgroundColor="#dc3545"
+                        app:cardCornerRadius="10dp"
+                        app:contentPadding="8dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/cases_titleDeath"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/quicksand"
+                                android:text="Total Deaths"
+                                android:textColor="@color/white"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/cases_txtDeath"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/quicksand"
+                                android:text="0"
+                                android:textColor="@color/white"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cases_cardNewCases"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:layout_rowWeight="1"
+                        android:layout_columnWeight="1"
+                        android:layout_marginEnd="2dp"
+                        android:minWidth="100dp"
+                        app:cardBackgroundColor="#ffcc01"
+                        app:cardCornerRadius="10dp"
+                        app:contentPadding="8dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/cases_titleNewCases"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/quicksand"
+                                android:text="New Cases"
+                                android:textColor="@color/white"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/cases_txtNewCases"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/quicksand"
+                                android:text="0"
+                                android:textColor="@color/white"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
                         android:id="@+id/cases_cardActive"
                         android:layout_width="0dp"
                         android:layout_height="100dp"
-                        android:layout_centerInParent="false"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginEnd="6dp"
-                        android:layout_marginBottom="6dp"
+                        android:layout_rowWeight="1"
+                        android:layout_columnWeight="1"
                         android:minWidth="100dp"
-                        app:cardBackgroundColor="#75A9F9"
+                        app:cardBackgroundColor="#fe5105"
                         app:cardCornerRadius="10dp"
-                        app:contentPadding="8dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/cases_cardTested"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/cases_cardRecoveries"
-                        app:layout_constraintTop_toTopOf="@+id/cases_cardRecoveries">
+                        app:contentPadding="8dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -232,8 +286,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/quicksand"
-                                android:gravity="center"
-                                android:text="Active"
+                                android:text="Total Active"
                                 android:textColor="@color/white"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
@@ -251,53 +304,7 @@
 
                     </androidx.cardview.widget.CardView>
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cases_cardTested"
-                        android:layout_width="0dp"
-                        android:layout_height="100dp"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginEnd="6dp"
-                        android:layout_marginBottom="6dp"
-                        android:minWidth="100dp"
-                        app:cardBackgroundColor="#C238EB"
-                        app:cardCornerRadius="10dp"
-                        app:contentPadding="8dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/cases_cardActive"
-                        app:layout_constraintTop_toBottomOf="@+id/cases_cardDeath">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/cases_titleTested"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/quicksand"
-                                android:gravity="center"
-                                android:text="Tested"
-                                android:textColor="@color/white"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/cases_txtTested"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/quicksand"
-                                android:text="0"
-                                android:textColor="@color/white"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                </GridLayout>
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cases_cardStats"

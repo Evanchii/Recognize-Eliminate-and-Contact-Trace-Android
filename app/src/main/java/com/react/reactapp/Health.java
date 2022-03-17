@@ -36,9 +36,11 @@ public class Health extends AppCompatActivity implements NavigationView.OnNaviga
     private FirebaseAuth mAuth;
     private DatabaseReference dbRef;
     boolean status;
-    MaterialCardView cardStatus;
-    TextView textStatus;
-    ImageView imgStatus;
+    String vaccination;
+    MaterialCardView cardStatus, cardVacc;
+    TextView textStatus, textVacc;
+    ImageView imgStatus, imgVacc;
+    CommonFunctions cf = new CommonFunctions();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,16 +50,7 @@ public class Health extends AppCompatActivity implements NavigationView.OnNaviga
         setContentView(R.layout.health);
 
         mAuth = FirebaseAuth.getInstance();
-        dbRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid()).child("info").child("status");
-        dbRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                status = (boolean) snapshot.getValue();
-            }
-
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {}
-        });
+        dbRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid()).child("info");
 
         new CommonFunctions().fetchHamburgerDetails((NavigationView) findViewById(R.id.navigation_view));
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawerButton);
@@ -79,9 +72,24 @@ public class Health extends AppCompatActivity implements NavigationView.OnNaviga
         cardStatus = findViewById(R.id.health_cardStatus);
         textStatus = findViewById(R.id.health_txtStatus);
         imgStatus = findViewById(R.id.health_imgIcon);
-        status = false;
 
-        setStatus();
+        cardVacc = findViewById(R.id.health_cardVaccination);
+        textVacc = findViewById(R.id.health_txtVaccination);
+        imgVacc = findViewById(R.id.health_iconVaccination);
+
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                status = (boolean) snapshot.child("status").getValue();
+                vaccination = snapshot.child("vaccine").getValue().toString();
+
+                setStatus();
+                setVaccine();
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {}
+        });
     }
 
     @Override
@@ -97,6 +105,51 @@ public class Health extends AppCompatActivity implements NavigationView.OnNaviga
         if(CommonFunctions.menu(this, item, "Health Status"))
             finish();
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                status = (boolean) snapshot.child("status").getValue();
+                vaccination = snapshot.child("vaccine").getValue().toString();
+
+                setStatus();
+                setVaccine();
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {}
+        });
+        super.onResume();
+    }
+
+    private void setVaccine() {
+        cardVacc.setOnClickListener(null);
+        switch (vaccination) {
+            case "pending":
+                cardVacc.setStrokeColor(Color.parseColor("#FF3c3f41"));
+                cardVacc.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //
+                    }
+                });
+                textVacc.setText("Application\nPending");
+                imgVacc.setImageResource(R.drawable.ic_pending);
+                break;
+            case "true":
+                cardVacc.setStrokeColor(Color.parseColor("#FF4A9F7E"));
+                textVacc.setText("Vaccinated");
+                imgVacc.setImageResource(R.drawable.ic_vaccinated);
+                break;
+            case "false":
+                cardVacc.setStrokeColor(Color.parseColor("#FFA83C52"));
+                textVacc.setText("Not Vaccinated");
+                imgVacc.setImageResource(R.drawable.ic_not_vaccinated);
+                break;
+        }
     }
 
     private void setStatus() {
@@ -117,6 +170,9 @@ public class Health extends AppCompatActivity implements NavigationView.OnNaviga
                 .setMessage("Change COVID-19 Status? This will send an alert to the LGU and DOH")
                 .setPositiveButton("Yes", (dialog, which) -> {
                     status = !status;
+                    if(status) {
+//                        cf.covidNotification(mAuth.getCurrentUser().getUid());
+                    }
                     dbRef.setValue(status);
                     setStatus();
                     dialog.dismiss();

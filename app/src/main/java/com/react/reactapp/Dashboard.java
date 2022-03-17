@@ -45,7 +45,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         setContentView(R.layout.dashboard);
 
         mAuth = FirebaseAuth.getInstance();
-        dbRef = FirebaseDatabase.getInstance().getReference().child("appData").child("links");
+        dbRef = FirebaseDatabase.getInstance().getReference().child("Stats/Dagupan City");
 
         cf = new CommonFunctions();
         cf.fetchHamburgerDetails((NavigationView) findViewById(R.id.navigation_view));
@@ -68,11 +68,17 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        dbRef.orderByKey().limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                String situationer = String.valueOf(snapshot.child("situationer").getValue());
-                ((ImageView) findViewById(R.id.dash_imgSituationer)).setImageBitmap(cf.getBitmapFromURL(situationer));
+                for(DataSnapshot entry : snapshot.getChildren()) {
+                    String situationer = String.valueOf(entry.child("situationer").getValue());
+                    if(!situationer.equals("#")) {
+                        ((ImageView) findViewById(R.id.dash_imgSituationer)).setImageBitmap(cf.getBitmapFromURL(situationer));
+                    } else {
+                        ((ImageView) findViewById(R.id.dash_imgSituationer)).setImageResource(R.drawable.nd_situationer);
+                    }
+                }
             }
 
             @Override

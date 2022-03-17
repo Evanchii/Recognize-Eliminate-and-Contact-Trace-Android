@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -37,6 +38,7 @@ public class RegInfo extends AppCompatActivity {
 
     HashMap<String, String> info = new HashMap<>();
     boolean valid = true;
+    private FirebaseAuth mAuth;
     final Calendar myCalendar = Calendar.getInstance();
     TextInputEditText edittext;
     ActivityResultLauncher<Intent> openActivity;
@@ -45,6 +47,8 @@ public class RegInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reg_info);
+
+        mAuth= FirebaseAuth.getInstance();
 
         openActivity = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -98,6 +102,7 @@ public class RegInfo extends AppCompatActivity {
                     TIL.setError("Required");
                     valid = false;
                 } else if(text.getTag().toString().equals("email") && !android.util.Patterns.EMAIL_ADDRESS.matcher(text.getText().toString().trim()).matches()) {
+//                    mAuth.sendPasswordResetEmail(text.getText().toString().trim())
                     TIL.setErrorEnabled(true);
                     TIL.setError("Invalid Email Format");
                     valid = false;
@@ -125,7 +130,7 @@ public class RegInfo extends AppCompatActivity {
         }
 
         if(valid) {
-            Intent regFace = new Intent(RegInfo.this, RegFace.class);
+            Intent regFace = new Intent(RegInfo.this, RegID.class);
             regFace.putExtra("userInfo", info);
             regFace.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             openActivity.launch(regFace);

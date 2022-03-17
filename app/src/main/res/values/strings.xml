@@ -9,8 +9,10 @@
 
     <string name="descLogo">Application Logo</string>
     <string name="title_activity_registration">Registration</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
+    <string name="tab_reg_1">Info</string>
+    <string name="tab_reg_2">Face</string>
+    <string name="tab_reg_3">ID</string>
+    <string name="tab_reg_4">Password</string>
     <string name="Open">Open</string>
     <string name="Close">Close</string>
     <string name="logo_txt">logo_txt</string>

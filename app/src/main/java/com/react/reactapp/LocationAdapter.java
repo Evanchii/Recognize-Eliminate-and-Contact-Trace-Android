@@ -36,7 +36,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
         String key = (String) (mData.keySet().toArray())[position];
         holder.cardView.setTag(key);
         holder.time.setText(mData.get(key).get("time"));
-        holder.location.setText("You have entered the " + mData.get(key).get("estName"));
+        holder.location.setText("You have entered the " + mData.get(key).get("estName") + " " + mData.get(key).get("branch"));
     }
 
     @Override

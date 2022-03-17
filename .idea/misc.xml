@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Projects/REaCT-Android/app/src/main/res/drawable/ic_facemask.xml" value="0.290625" />
+        <entry key="..\:/Projects/REaCT-Android/app/src/main/res/drawable/ic_not_vaccinated.xml" value="0.290625" />
+        <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/cases.xml" value="0.4578627280625543" />
+        <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/frag_reg_face.xml" value="0.14375" />
+        <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/frag_reg_id.xml" value="0.14375" />
+        <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/frag_reg_info.xml" value="0.1" />
+        <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/frag_reg_password.xml" value="0.14375" />
+        <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/fragment_frag_reg_info.xml" value="0.27219202898550726" />
+        <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/fragment_registration.xml" value="0.4" />
+        <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/header.xml" value="0.264" />
+        <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/health.xml" value="0.4" />
+        <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/location.xml" value="0.27219202898550726" />
+        <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/reg_face.xml" value="0.14375" />
+        <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/reg_id.xml" value="0.14375" />
+        <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/reg_password.xml" value="0.27219202898550726" />
+        <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/registration.xml" value="0.27219202898550726" />
+        <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/template_location.xml" value="0.27219202898550726" />
+        <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/vaccination_application.xml" value="0.14375" />
+        <entry key="..\:/Projects/REaCT-Android/app/src/main/res/menu/hamburger_menu.xml" value="0.14375" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

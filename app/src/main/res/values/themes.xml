@@ -28,7 +28,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.REaCT.AppBarOverlay.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="Theme.REaCT.AppBarOverlay.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.REaCT.AppBarOverlay.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 

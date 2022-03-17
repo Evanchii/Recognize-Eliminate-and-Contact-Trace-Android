@@ -41,7 +41,7 @@ public class Location extends AppCompatActivity implements NavigationView.OnNavi
 
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private FirebaseAuth mAuth;
-    private DatabaseReference dbRef;
+    private DatabaseReference userHisRef, hisRef;
     //<Date, <Timestamp, <key, value>>>
     HashMap<String, HashMap<String, HashMap<String, String>>> history;
     LocationAdapter adapter;
@@ -56,21 +56,36 @@ public class Location extends AppCompatActivity implements NavigationView.OnNavi
         setContentView(R.layout.location);
 
         mAuth = FirebaseAuth.getInstance();
-        dbRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid()).child("history");
+        userHisRef = FirebaseDatabase.getInstance().getReference("Users/"+mAuth.getCurrentUser().getUid()+"/history");
+        hisRef = FirebaseDatabase.getInstance().getReference("History");
 
         history = new HashMap<>();
 
         //get data from rtdb
-        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        userHisRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                history = new HashMap<>();
-                for (DataSnapshot data : snapshot.getChildren()) {
-                    Log.d("LocationData", data.getKey());
-                    history.put(data.getKey(), (HashMap<String, HashMap<String, String>>) data.getValue());
-                }
+            public void onDataChange(@NonNull @NotNull DataSnapshot userSnap) {
+                hisRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot hisSnap) {
+                        history = new HashMap<>();
+                        for (DataSnapshot date : userSnap.getChildren()) {
+                            HashMap<String, HashMap<String, String>> innerMap = new HashMap<>();
+                            for (DataSnapshot ts : date.getChildren()) {
+                                Log.d("LocationData", ts.getKey());
+                                innerMap.put(ts.getKey().toString(), (HashMap<String, String>) hisSnap.child(date.getKey().toString() + "/" + ts.getKey().toString()).getValue());
+                            }
+                            history.put (date.getKey(), innerMap);
+                        }
 
-                inflateLocation();
+                        inflateLocation();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
 
             @Override

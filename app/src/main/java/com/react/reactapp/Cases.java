@@ -10,6 +10,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -42,7 +43,7 @@ public class Cases extends AppCompatActivity implements NavigationView.OnNavigat
         setContentView(R.layout.cases);
 
         mAuth = FirebaseAuth.getInstance();
-        dbRef = FirebaseDatabase.getInstance().getReference().child("appData");
+        dbRef = FirebaseDatabase.getInstance().getReference().child("Stats/Dagupan City");
 
         cf = new CommonFunctions();
         cf.fetchHamburgerDetails((NavigationView) findViewById(R.id.navigation_view));
@@ -65,22 +66,42 @@ public class Cases extends AppCompatActivity implements NavigationView.OnNavigat
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        dbRef.orderByKey().limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                String situationer = String.valueOf(snapshot.child("links").child("daily").getValue());
-                ((ImageView) findViewById(R.id.cases_imgStats)).setImageBitmap(cf.getBitmapFromURL(situationer));
+                for(DataSnapshot entry : snapshot.getChildren()) {
+                    Log.d("Cases(72)", "Now loading data");
+                    String daily = String.valueOf(entry.child("daily").getValue());
+                    if(!daily.equals("#")) {
+                        ((ImageView) findViewById(R.id.cases_imgStats)).setImageBitmap(cf.getBitmapFromURL(daily));
+                    } else {
+                        ((ImageView) findViewById(R.id.cases_imgStats)).setImageResource(R.drawable.nd_daily);
+                    }
 
 //                TextView cases = findViewById(R.id.cases_txtCase),
 //                        death = findViewById(R.id.cases_txtDeath),
 //                        recoveries = findViewById(R.id.cases_txtRecoveries),
 //                        active = findViewById(R.id.cases_txtActive),
 //                        tested = findViewById(R.id.cases_txtTested);
-                TextView[] covStatus = new TextView[] {findViewById(R.id.cases_txtActive), findViewById(R.id.cases_txtCase), findViewById(R.id.cases_txtDeath), findViewById(R.id.cases_txtRecoveries), findViewById(R.id.cases_txtTested)};
-                int x = 0;
+//                TextView[] covStatus = new TextView[] {findViewById(R.id.cases_txtActive), findViewById(R.id.cases_txtCase), findViewById(R.id.cases_txtDeath), findViewById(R.id.cases_txtRecoveries), findViewById(R.id.cases_txtTested)};
+                    TextView active = findViewById(R.id.cases_txtActive),
+                            newCase = findViewById(R.id.cases_txtCase),
+                            death = findViewById(R.id.cases_txtDeath),
+                            recov = findViewById(R.id.cases_txtRecoveries),
+                            test = findViewById(R.id.cases_txtTested);
 
-                for(DataSnapshot data : snapshot.child("covStatus").getChildren()) {
-                    covStatus[x++].setText(data.getValue().toString());
+                    active.setText(entry.child("tActive").getValue().toString());
+                    newCase.setText(entry.child("nCases").getValue().toString());
+                    death.setText(entry.child("tDeaths").getValue().toString());
+                    recov.setText(entry.child("tRecoveries").getValue().toString());
+                    test.setText(entry.child("tTested").getValue().toString());
+
+
+//                int x = 0;
+
+//                for(DataSnapshot data : snapshot.child("covStatus").getChildren()) {
+//                    covStatus[x++].setText(data.getValue().toString());
+//                }
                 }
             }
 

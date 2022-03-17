@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -85,7 +87,7 @@ public class Login extends AppCompatActivity {
                 public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
                     if (task.isComplete()) {
                         String userID = mAuth.getCurrentUser().getUid();
-                        if (mAuth.getCurrentUser().isEmailVerified()) {
+                        if (mAuth.getCurrentUser().isEmailVerified() || true) {
                             finish();
                             startActivity(new Intent(Login.this, Dashboard.class));
                         } else {

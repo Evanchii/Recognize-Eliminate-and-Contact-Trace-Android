@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
@@ -61,13 +62,13 @@ public class RegPassword extends AppCompatActivity {
         ClickableSpan cS1 = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View widget) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://react.alevan.ga/terms/")));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://react-app.ga/pages/terms.php")));
             }
         };
         ClickableSpan cS2 = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View widget) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://react.alevan.ga/privacy/")));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://react-app.ga/pages/privacy.php")));
             }
         };
         ss.setSpan(cS1, 15, 32, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -83,18 +84,17 @@ public class RegPassword extends AppCompatActivity {
     }
 
     public void upload() {
-        Uri face = Uri.parse(info.get("faceID")),
-                ID = Uri.parse(info.get("ID"));
+        Uri ID = Uri.parse(info.get("ID"));
 
-        StorageReference filepathFace = mStorage.child("Face").child(mAuth.getCurrentUser().getUid().toString() +"."+ face.getLastPathSegment().split("\\.")[1]);
-        filepathFace.putFile(face).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                signupDbRef.child("faceID").setValue("Face/"+mAuth.getCurrentUser().getUid().toString() +"."+ face.getLastPathSegment().split("\\.")[1]);
-//                progUp.dismiss();
-                finish();
-            }
-        });
+//        StorageReference filepathFace = mStorage.child("Face").child(mAuth.getCurrentUser().getUid().toString() +"."+ face.getLastPathSegment().split("\\.")[1]);
+//        filepathFace.putFile(face).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                signupDbRef.child("faceID").setValue("Face/"+mAuth.getCurrentUser().getUid().toString() +"."+ face.getLastPathSegment().split("\\.")[1]);
+////                progUp.dismiss();
+//                finish();
+//            }
+//        });
 
         StorageReference filepathID = mStorage.child("ID").child(mAuth.getCurrentUser().getUid().toString() +"."+ ID.getLastPathSegment().split("\\.")[1]);
         filepathID.putFile(ID).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -110,7 +110,7 @@ public class RegPassword extends AppCompatActivity {
     public void Signup(View view) {
         progUp = ProgressDialog.show(this, "Registering","Please wait as we register you in our database.", true);
         progUp.setCancelable(false);
-        Toast.makeText(RegPassword.this, "Signing up...", Toast.LENGTH_LONG).show();
+//        Toast.makeText(RegPassword.this, "Signing up...", Toast.LENGTH_LONG).show();
         TextInputEditText pass = findViewById(R.id.password_txtPass),
                 conf = findViewById(R.id.password_txtConf);
         TextInputLayout layPass = (TextInputLayout) pass.getParent().getParent(),
@@ -130,12 +130,13 @@ public class RegPassword extends AppCompatActivity {
             if(ToS.isChecked()) {
                 Log.d("PASSWORD>", info.keySet().toString());
                 mAuth.createUserWithEmailAndPassword(info.get("email"), pass.getText().toString().trim())
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                             @Override
-                            public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
+                            public void onSuccess(AuthResult authResult) {
                                 mAuth.getCurrentUser().sendEmailVerification();
                                 AlertDialog.Builder confEmail = new AlertDialog.Builder(RegPassword.this);
                                 String userID = mAuth.getCurrentUser().getUid();
+                                mAuth.signOut();
                                 signupDbRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userID).child("info");
                                 signupDbRef.child("Type").setValue("User");
                                 for (String key : info.keySet()) {
@@ -151,9 +152,14 @@ public class RegPassword extends AppCompatActivity {
 
                                 progUp.dismiss();
 
-                                confEmail.setTitle("We sent you an email")
-                                        .setMessage("Please check your inbox/spam to confirm your email address.")
+                                confEmail.setTitle("One last step left")
+                                        .setMessage("Thank you for registering! Let's finalize your registration by \n(1) registering your face inside the system through the website; and, \n(2) Confirming your Email Address by opening the link we sent to your email inbox/spam.")
                                         .setPositiveButton("OK", (dialog, which) -> {
+                                            setResult(Activity.RESULT_OK);
+                                            finish();
+                                        })
+                                        .setNeutralButton("Face Registration", (dialog, which) -> {
+                                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://react-app.ga/pages/registerFace.php")));
                                             setResult(Activity.RESULT_OK);
                                             finish();
                                         }).setCancelable(false).show();
@@ -161,18 +167,24 @@ public class RegPassword extends AppCompatActivity {
                         }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull @NotNull Exception e) {
-                        //progUp.dismiss();
+                        progUp.dismiss();
                         if (e.getMessage().contains("badly formatted")) {
                             //show dialog
+                            Snackbar.make(findViewById(R.id.regPass_parent), "Please enter a valid Email Address", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
 //                    error.setText("Please enter a valid Email Address");
                         } else if (e.getMessage().contains("address is in use by another account")) {
                             //show dialog
+                            Snackbar.make(findViewById(R.id.regPass_parent), "Email Address is already in use by another account!", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
 //                    error.setText("Email Address is in use by another account!");
-                            Toast.makeText(RegPassword.this, "Email Address is in use by another account", Toast.LENGTH_LONG);
+//                            Toast.makeText(RegPassword.this, "Email Address is in use by another account", Toast.LENGTH_LONG).show();
                         } else if (e.getMessage().contains("6 character")) {
                             layPass.setError("Password should be at least 6 characters long");
                         } else {
-                            Toast.makeText(RegPassword.this, e.getMessage(), Toast.LENGTH_LONG);
+//                            Toast.makeText(RegPassword.this, e.getMessage(), Toast.LENGTH_LONG).show();
+//                            Snackbar.make(findViewById(R.id.regPass_parent), e.getMessage(), Snackbar.LENGTH_LONG)
+//                                    .setAction("Action", null).show();
                         }
                         layPass.setErrorEnabled(true);
                     }
