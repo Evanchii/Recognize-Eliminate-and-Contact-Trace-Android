@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.REaCT">
         <activity
+            android:name=".Notifications"
+            android:exported="false" />
+        <activity
             android:name=".VaccinationApplication"
             android:exported="false" />
         <activity android:name=".Password">

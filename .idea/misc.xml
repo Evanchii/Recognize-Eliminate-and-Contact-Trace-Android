@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Projects/REaCT-Android/app/src/main/res/drawable/ic_facemask.xml" value="0.290625" />
+        <entry key="..\:/Projects/REaCT-Android/app/src/main/res/drawable/ic_health_alert.xml" value="0.15989583333333332" />
         <entry key="..\:/Projects/REaCT-Android/app/src/main/res/drawable/ic_not_vaccinated.xml" value="0.290625" />
         <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/cases.xml" value="0.4578627280625543" />
         <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/frag_reg_face.xml" value="0.14375" />
@@ -14,12 +15,16 @@
         <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/fragment_registration.xml" value="0.4" />
         <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/header.xml" value="0.264" />
         <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/health.xml" value="0.4" />
+        <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/item_location.xml" value="0.14375" />
+        <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/item_notification.xml" value="0.536" />
         <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/location.xml" value="0.27219202898550726" />
+        <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/notifications.xml" value="0.1" />
         <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/reg_face.xml" value="0.14375" />
         <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/reg_id.xml" value="0.14375" />
         <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/reg_password.xml" value="0.27219202898550726" />
         <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/registration.xml" value="0.27219202898550726" />
         <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/template_location.xml" value="0.27219202898550726" />
+        <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/template_notification.xml" value="0.14375" />
         <entry key="..\:/Projects/REaCT-Android/app/src/main/res/layout/vaccination_application.xml" value="0.14375" />
         <entry key="..\:/Projects/REaCT-Android/app/src/main/res/menu/hamburger_menu.xml" value="0.14375" />
       </map>

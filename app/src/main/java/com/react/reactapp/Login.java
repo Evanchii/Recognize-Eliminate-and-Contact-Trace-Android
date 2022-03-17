@@ -9,6 +9,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -87,9 +88,43 @@ public class Login extends AppCompatActivity {
                 public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
                     if (task.isComplete()) {
                         String userID = mAuth.getCurrentUser().getUid();
-                        if (mAuth.getCurrentUser().isEmailVerified() || true) {
-                            finish();
-                            startActivity(new Intent(Login.this, Dashboard.class));
+                        if (mAuth.getCurrentUser().isEmailVerified()) {
+                            loginDbRef.child(mAuth.getCurrentUser().getUid() + "/info").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if(snapshot.hasChild("faceID")) {
+                                        finish();
+                                        startActivity(new Intent(Login.this, Notifications.class));
+                                    } else if (!snapshot.child("Type").getValue().toString().equals("visitor")) {
+                                        AlertDialog.Builder confEmail = new AlertDialog.Builder(Login.this);
+                                        dialog.dismiss();
+                                        confEmail.setTitle("Oops! We found a problem")
+                                                .setMessage("Hi there! The Mobile System can only be used by the Visitor. For admins and establishment owners, please kindly use our web system! Thank you and keep safe.")
+                                                .setPositiveButton("OK", (dialog, which) -> mAuth.signOut())
+                                                .setNeutralButton("Register Face", (dialog, which) -> {
+                                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://react-app.ga/pages/registerFace.php")));
+                                                    mAuth.signOut();
+                                                })
+                                                .setCancelable(false).show();
+                                    } else {
+                                        AlertDialog.Builder confEmail = new AlertDialog.Builder(Login.this);
+                                        dialog.dismiss();
+                                        confEmail.setTitle("Oops! We found a problem")
+                                                .setMessage("Please complete your registration process (Face Enrollment) through our Web System before you can use our system. Thank you!")
+                                                .setPositiveButton("OK", (dialog, which) -> mAuth.signOut())
+                                                .setNeutralButton("Register Face", (dialog, which) -> {
+                                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://react-app.ga/pages/registerFace.php")));
+                                                    mAuth.signOut();
+                                                })
+                                                .setCancelable(false).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
                         } else {
                             AlertDialog.Builder confEmail = new AlertDialog.Builder(Login.this);
                             confEmail.setTitle("We sent you an email")
