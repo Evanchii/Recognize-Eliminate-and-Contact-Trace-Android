@@ -103,7 +103,7 @@ public class Location extends AppCompatActivity implements NavigationView.OnNavi
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(3).setChecked(true);
+        navigationView.getMenu().getItem(4).setChecked(true);
 
         View headerView = navigationView.getHeaderView(0);
         CardView headerCard = (CardView) headerView.findViewById(R.id.header_cardMain);
