@@ -6,11 +6,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.format.Formatter;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
@@ -18,6 +24,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
+import com.google.android.gms.common.util.ArrayUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -27,15 +34,35 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.conn.util.InetAddressUtils;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.math.BigInteger;
+import java.net.HttpURLConnection;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.URL;
+import java.net.UnknownHostException;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.RunnableFuture;
 
 public class RegPassword extends AppCompatActivity {
 
@@ -54,6 +81,7 @@ public class RegPassword extends AppCompatActivity {
         info = (HashMap<String, String>) intent.getSerializableExtra("info");
         mAuth= FirebaseAuth.getInstance();
         mStorage= FirebaseStorage.getInstance().getReference();
+        String ip;
 
 
         ToS = findViewById(R.id.regPass_chkToS);
@@ -97,14 +125,37 @@ public class RegPassword extends AppCompatActivity {
 //        });
 
         StorageReference filepathID = mStorage.child("ID").child(mAuth.getCurrentUser().getUid().toString() +"."+ ID.getLastPathSegment().split("\\.")[1]);
-        filepathID.putFile(ID).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                signupDbRef.child("ID").setValue("ID/"+mAuth.getCurrentUser().getUid().toString() +"."+ ID.getLastPathSegment().split("\\.")[1]);
+        filepathID.putFile(ID).addOnSuccessListener(taskSnapshot -> {
+            signupDbRef.child("ID").setValue("ID/"+mAuth.getCurrentUser().getUid().toString() +"."+ ID.getLastPathSegment().split("\\.")[1]);
 //                progUp.dismiss();
-                finish();
-            }
         });
+    }
+
+    public static String getIPAddress(boolean useIPv4) {
+        try {
+            List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface intf : interfaces) {
+                List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
+                for (InetAddress addr : addrs) {
+                    if (!addr.isLoopbackAddress()) {
+                        String sAddr = addr.getHostAddress().toUpperCase();
+                        boolean isIPv4 = InetAddressUtils.isIPv4Address(sAddr);
+                        if (useIPv4) {
+                            if (isIPv4)
+                                return sAddr;
+                        } else {
+                            if (!isIPv4) {
+                                int delim = sAddr.indexOf('%'); // drop ip6 port suffix
+                                return delim<0 ? sAddr : sAddr.substring(0, delim);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     public void Signup(View view) {
@@ -136,9 +187,8 @@ public class RegPassword extends AppCompatActivity {
                                 mAuth.getCurrentUser().sendEmailVerification();
                                 AlertDialog.Builder confEmail = new AlertDialog.Builder(RegPassword.this);
                                 String userID = mAuth.getCurrentUser().getUid();
-                                mAuth.signOut();
                                 signupDbRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userID).child("info");
-                                signupDbRef.child("Type").setValue("User");
+                                signupDbRef.child("Type").setValue("visitor");
                                 for (String key : info.keySet()) {
                                     if (key.equals("email") || key.equals("faceID") || key.equals("ID")) {
                                         continue;
@@ -147,22 +197,48 @@ public class RegPassword extends AppCompatActivity {
                                     }
                                 }
                                 signupDbRef.child("status").setValue(false);
+                                DatabaseReference logRef = FirebaseDatabase.getInstance().getReference().child("Logs/");
+                                logRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        Long tsLong = System.currentTimeMillis()/1000;
+                                        while(snapshot.hasChild(String.valueOf(tsLong))) {
+                                            tsLong++;
+                                        }
+                                        String ts = tsLong.toString();
 
-                                upload();
+                                        HashMap<String, HashMap<String, String>> log = new HashMap<>();
 
-                                progUp.dismiss();
+                                        logRef.child(ts).child("ip").setValue("Android System - " + getIPAddress(false));
+                                        logRef.child(ts).child("description").setValue(info.get("lName") + ", " +
+                                                info.get("fName") + " " + info.get("mName") + "(" +
+                                                mAuth.getCurrentUser().getUid() + ") has created their own account");
+                                        logRef.child(ts).child("category").setValue("Account");
 
-                                confEmail.setTitle("One last step left")
-                                        .setMessage("Thank you for registering! Let's finalize your registration by \n(1) registering your face inside the system through the website; and, \n(2) Confirming your Email Address by opening the link we sent to your email inbox/spam.")
-                                        .setPositiveButton("OK", (dialog, which) -> {
-                                            setResult(Activity.RESULT_OK);
-                                            finish();
-                                        })
-                                        .setNeutralButton("Face Registration", (dialog, which) -> {
-                                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://react-app.ga/pages/registerFace.php")));
-                                            setResult(Activity.RESULT_OK);
-                                            finish();
-                                        }).setCancelable(false).show();
+                                        upload();
+
+                                        progUp.dismiss();
+
+                                        confEmail.setTitle("One last step left")
+                                                .setMessage("Thank you for registering! Let's finalize your registration by \n(1) registering your face inside the system through the website; and, \n(2) Confirming your Email Address by opening the link we sent to your email inbox/spam.")
+                                                .setPositiveButton("OK", (dialog, which) -> {
+                                                    mAuth.signOut();
+                                                    setResult(Activity.RESULT_OK);
+                                                    finish();
+                                                })
+                                                .setNeutralButton("Face Registration", (dialog, which) -> {
+                                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://react-app.ga/pages/registerFace.php")));
+                                                    mAuth.signOut();
+                                                    setResult(Activity.RESULT_OK);
+                                                    finish();
+                                                }).setCancelable(false).show();
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                     @Override

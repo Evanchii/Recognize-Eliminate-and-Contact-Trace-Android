@@ -1,21 +1,17 @@
 package com.react.reactapp;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,6 +25,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.concurrent.Callable;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.RunnableFuture;
 
 public class Health extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -172,6 +176,109 @@ public class Health extends AppCompatActivity implements NavigationView.OnNaviga
                     status = !status;
                     if(status) {
 //                        cf.covidNotification(mAuth.getCurrentUser().getUid());
+
+                        RunnableFuture<Void> sendCovidNotifs = new FutureTask<>(new Callable<Void>() {
+                            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                            DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference(),
+                                    userHisRef = dbRef.child("Users/"+mAuth.getCurrentUser()+"/history"),
+                                    hisRef = dbRef.child("History"),
+                                    notifRef = dbRef.child("Notifications");
+
+                            @Override
+                            public Void call() throws Exception {
+
+                                userHisRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot userHisSnap) {
+                                        hisRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot hisSnap) {
+                                                ArrayList<String> estUID = new ArrayList<String>();
+                                                long DAY_IN_MS = 1000 * 60 * 60 * 24;
+                                                Date d14 = new Date(System.currentTimeMillis() - (14 * DAY_IN_MS));
+                                                for(DataSnapshot date : userHisSnap.getChildren()) { //date : ts
+                                                    try {
+                                                        Date date1=new SimpleDateFormat("yyyy/MM/dd").parse(date.getKey());
+                                                        if(date1.before(d14))
+                                                            continue;
+                                                    } catch (ParseException e) {
+                                                        e.printStackTrace();
+                                                    }
+
+                                                    for(DataSnapshot ts : date.getChildren()) { //ts : ts
+                                                        estUID.add(hisSnap.child(date.getKey() + "/" + ts.getKey() + "/estUID").getValue().toString());
+                                                    }
+                                                }
+                                                perEstNotif(estUID);
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                                return null;
+                            }
+
+                            void perEstNotif(ArrayList<String> estUIDs) {
+                                notifRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot notifSnap) {
+                                        dbRef.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                hisRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot hisSnap) {
+                                                        Long tsLong = System.currentTimeMillis()/1000;
+                                                        while(notifSnap.hasChild(String.valueOf(tsLong))) {
+                                                            tsLong++;
+                                                        }
+                                                        String nTS = tsLong.toString();
+                                                        notifRef.child(nTS+"/type").setValue("health-alert");
+                                                        notifRef.child(nTS+"/title").setValue("Reported Positive Contact");
+                                                        notifRef.child(nTS+"/message").setValue("A user that you\\'ve been in contact within the last 14 days has reported that they\\'ve tested positive. Please be cautious!");
+                                                        for(String estUID : estUIDs) {
+                                                            for (DataSnapshot date : snapshot.child(estUID + "/history").getChildren()) {
+                                                                for(DataSnapshot ts : date.getChildren()) {
+                                                                    dbRef.child("Users/"+hisSnap.child(date.getKey() + "/" + ts.getKey() + "/uid").getValue()+"/notifs/"+nTS).setValue(nTS);
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                                    }
+                                                });
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                            }
+                        });
+
+                        new Thread(sendCovidNotifs).start();
+
                     }
                     dbRef.setValue(status);
                     setStatus();

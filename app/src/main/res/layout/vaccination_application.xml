@@ -1,9 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primary_color"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
     tools:context=".VaccinationApplication">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:fontFamily="@font/quicksand"
+        android:text="Let's verify your Vaccination Status"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/curback_white"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/textView22"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/asap"
+            android:text="Upload Vaccination Card" />
+
+        <ImageView
+            android:id="@+id/vacc_imgCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:srcCompat="@drawable/cust_button_white" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/vacc_btnUpload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/cust_button_blue"
+            android:fontFamily="@font/quicksand"
+            android:text="Select File"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView24"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/asap"
+            android:text="Vaccine Brand" />
+
+        <Spinner
+            android:id="@+id/vacc_spnBrand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/vaccBrand" />
+
+        <TextView
+            android:id="@+id/textView25"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/asap"
+            android:text="Status" />
+
+        <Spinner
+            android:id="@+id/vacc_spnStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/vaccStatus" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/vacc_btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/cust_button_blue"
+            android:fontFamily="@font/quicksand"
+            android:text="Submit"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</LinearLayout>

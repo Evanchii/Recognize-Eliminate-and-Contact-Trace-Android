@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerButton"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0C59CF"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".QRCode">
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/quicksand"
+        android:padding="16dp"
+        android:text="QR Code"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/curback_white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/textView19"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/asap"
+            android:text="Prefer the QR Code than the Facial Recognition Technology?" />
+
+        <ImageView
+            android:id="@+id/qr_imgQR"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_margin="16dp"
+            app:srcCompat="@drawable/ic_qr" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/qr_btnDownload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/cust_button_blue"
+            android:fontFamily="@font/asap"
+            android:padding="12dp"
+            android:text="Download QR Code"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/asap"
+            android:gravity="center"
+            android:text="No need to scan your face when entering an establishment\n\nThe QR Code can be scanned when entering an establishment that supports REaCT\n\nOnce the system validates that the QR Code is valid, it will automatically generate a log or record for you" />
+    </LinearLayout>
+</LinearLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#FFF"
+
+        app:headerLayout="@layout/header"
+        app:itemShapeFillColor="@color/navigation_item_background"
+        app:itemTextColor="@color/black"
+        app:menu="@menu/hamburger_menu">
+
+    </com.google.android.material.navigation.NavigationView>
+</androidx.drawerlayout.widget.DrawerLayout>

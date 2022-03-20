@@ -58,4 +58,18 @@
         <item>Tapuac</item>
         <item>Tebeng</item>
     </string-array>
+    <string-array name="vaccBrand">
+        <item>Pfizer - BioNTech</item>
+        <item>Oxford - AstraZeneca</item>
+        <item>CoronaVac (Sinovac)</item>
+        <item>Gamaleya Sputnik V</item>
+        <item>Johnson and Johnson - Janssen</item>
+        <item>Bharat BioTech</item>
+        <item>Moderna</item>
+        <item>Sinopharm</item>
+    </string-array>
+    <string-array name="vaccStatus">
+        <item>Partially Vaccinated (1st Dose)</item>
+        <item>Fully Vaccinated</item>
+    </string-array>
 </resources>

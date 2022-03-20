@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,13 +28,30 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.List;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.X509TrustManager;
 
 public class CommonFunctions extends AppCompatActivity {
 
@@ -57,9 +76,17 @@ public class CommonFunctions extends AppCompatActivity {
                 if(!src.equals(item.getTitle()))
                     i = new Intent(con, Health.class);
                 break;
+            case R.id.action_qrcode:
+                if(!src.equals(item.getTitle()))
+                    i = new Intent(con, QRCode.class);
+                break;
             case R.id.action_location:
                 if(!src.equals(item.getTitle()))
                     i = new Intent(con, Location.class);
+                break;
+            case R.id.action_notifs:
+                if(!src.equals(item.getTitle()))
+                    i = new Intent(con, Notifications.class);
                 break;
             case R.id.action_settings:
                 if(!src.equals(item.getTitle()))
@@ -125,5 +152,64 @@ public class CommonFunctions extends AppCompatActivity {
     public int getBrgyIndex(String brgy) {
         List<String> ArrayBrgy = Arrays.asList(getResources().getStringArray(R.array.barangay));
         return ArrayBrgy.indexOf(brgy);
+    }
+
+    public Object generateQR(String action) {
+        mAuth = FirebaseAuth.getInstance();
+        String qr_Address = mAuth.getCurrentUser().getUid();
+
+        File storageDir = new File( Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DCIM), "REaCT");
+
+        MultiFormatWriter writer = new MultiFormatWriter();
+
+        if(!storageDir.exists()){
+
+            boolean s = new File(storageDir.getPath()).mkdirs();
+
+            if(!s){
+                Log.v("not", "not created");
+            }
+            else{
+                Log.v("cr","directory created");
+            }
+        }
+        else{
+            Log.v("directory", "directory exists");
+        }
+
+        try {
+            BitMatrix matrix = writer.encode(qr_Address, BarcodeFormat.QR_CODE,350,350);
+
+            if(action.equals("imgView")) {
+                int height = matrix.getHeight();
+                int width = matrix.getWidth();
+                Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+                for (int x = 0; x < width; x++){
+                    for (int y = 0; y < height; y++){
+                        bmp.setPixel(x, y, matrix.get(x,y) ? Color.BLACK : Color.WHITE);
+                    }
+                }
+//                ImageView qr_image = (ImageView) findViewById(R.id.qr_imgQR);
+//                qr_image.setImageBitmap(bmp);
+                return bmp;
+            }
+            else {
+                BarcodeEncoder encoder = new BarcodeEncoder();
+
+                Bitmap bitmap = encoder.createBitmap(matrix);
+                try (FileOutputStream out = new FileOutputStream(storageDir + "/QRCode.jpg")) {
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out); // bmp is your Bitmap instance
+                    return storageDir + "/REaCT-" + qr_Address + ".jpg";
+                    // PNG is a lossless format, the compression factor (100) is ignored
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+        } catch (WriterException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

@@ -28,7 +28,7 @@ public class Splashscreen extends AppCompatActivity {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
         Handler handler = new Handler();
-        Intent intent = (mAuth.getCurrentUser() != null) ? new Intent(Splashscreen.this, Notifications.class) : new Intent(Splashscreen.this, Login.class);
+        Intent intent = (mAuth.getCurrentUser() != null) ? new Intent(Splashscreen.this, Dashboard.class) : new Intent(Splashscreen.this, Login.class);
         handler.postDelayed(() -> {
             startActivity(intent);
             finish();

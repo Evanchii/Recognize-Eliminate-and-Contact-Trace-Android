@@ -8,6 +8,8 @@ import androidx.cardview.widget.CardView;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -24,6 +26,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -35,6 +39,7 @@ public class Cases extends AppCompatActivity implements NavigationView.OnNavigat
     private FirebaseAuth mAuth;
     private DatabaseReference dbRef;
     private CommonFunctions cf;
+    private StorageReference mStorageRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +48,12 @@ public class Cases extends AppCompatActivity implements NavigationView.OnNavigat
         setContentView(R.layout.cases);
 
         mAuth = FirebaseAuth.getInstance();
-        dbRef = FirebaseDatabase.getInstance().getReference().child("Stats/Dagupan City");
+        dbRef = FirebaseDatabase.getInstance().getReference().child("Stats");
+        mStorageRef = FirebaseStorage.getInstance().getReference();
 
         cf = new CommonFunctions();
-        cf.fetchHamburgerDetails((NavigationView) findViewById(R.id.navigation_view));
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawerButton);
+        cf.fetchHamburgerDetails(findViewById(R.id.navigation_view));
+        DrawerLayout drawerLayout = findViewById(R.id.drawerButton);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
@@ -73,17 +79,19 @@ public class Cases extends AppCompatActivity implements NavigationView.OnNavigat
                     Log.d("Cases(72)", "Now loading data");
                     String daily = String.valueOf(entry.child("daily").getValue());
                     if(!daily.equals("#")) {
-                        ((ImageView) findViewById(R.id.cases_imgStats)).setImageBitmap(cf.getBitmapFromURL(daily));
+
+                        StorageReference photoRef = mStorageRef.child("Infographics/"+daily);
+                        final long ONE_MB = 1024*1024 * 5;
+                        photoRef.getBytes(ONE_MB).addOnSuccessListener(bytes -> {
+                            Bitmap bmpLicense = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                            ((ImageView) findViewById(R.id.cases_imgStats)).setImageBitmap(bmpLicense);
+                        }).addOnFailureListener(e -> {
+                            Log.e("photoRef Error", e.toString());
+                        });
                     } else {
                         ((ImageView) findViewById(R.id.cases_imgStats)).setImageResource(R.drawable.nd_daily);
                     }
 
-//                TextView cases = findViewById(R.id.cases_txtCase),
-//                        death = findViewById(R.id.cases_txtDeath),
-//                        recoveries = findViewById(R.id.cases_txtRecoveries),
-//                        active = findViewById(R.id.cases_txtActive),
-//                        tested = findViewById(R.id.cases_txtTested);
-//                TextView[] covStatus = new TextView[] {findViewById(R.id.cases_txtActive), findViewById(R.id.cases_txtCase), findViewById(R.id.cases_txtDeath), findViewById(R.id.cases_txtRecoveries), findViewById(R.id.cases_txtTested)};
                     TextView active = findViewById(R.id.cases_txtActive),
                             newCase = findViewById(R.id.cases_txtCase),
                             death = findViewById(R.id.cases_txtDeath),
@@ -95,13 +103,6 @@ public class Cases extends AppCompatActivity implements NavigationView.OnNavigat
                     death.setText(entry.child("tDeaths").getValue().toString());
                     recov.setText(entry.child("tRecoveries").getValue().toString());
                     test.setText(entry.child("tTested").getValue().toString());
-
-
-//                int x = 0;
-
-//                for(DataSnapshot data : snapshot.child("covStatus").getChildren()) {
-//                    covStatus[x++].setText(data.getValue().toString());
-//                }
                 }
             }
 

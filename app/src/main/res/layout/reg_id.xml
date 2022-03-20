@@ -30,6 +30,16 @@
         android:text="Make sure your ID is valid and is not expired"
         android:textSize="16sp" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@drawable/cust_button_white"
+        android:onClick="showList"
+        android:text="List of valid IDs"
+        android:textAllCaps="false" />
+
     <androidx.cardview.widget.CardView
         android:layout_width="350dp"
         android:layout_height="250dp"

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -22,14 +23,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 
-public class Notifications extends AppCompatActivity {
+public class Notifications extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private FirebaseAuth mAuth;
     private DatabaseReference userNotifs, notifPool;
     HashMap<String, HashMap<String, String>> notifications;
+    private CommonFunctions cf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +42,8 @@ public class Notifications extends AppCompatActivity {
         getSupportActionBar().setTitle("Notifications");
         setContentView(R.layout.notifications);
 
-        new CommonFunctions().fetchHamburgerDetails((NavigationView) findViewById(R.id.navigation_view));
+        cf = new CommonFunctions();
+        cf.fetchHamburgerDetails((NavigationView) findViewById(R.id.navigation_view));
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawerButton);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
@@ -46,8 +51,8 @@ public class Notifications extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
-//        navigationView.setNavigationItemSelectedListener(this);
-//        navigationView.getMenu().getItem(3).setChecked(true);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(5).setChecked(true);
 
         View headerView = navigationView.getHeaderView(0);
         CardView headerCard = (CardView) headerView.findViewById(R.id.header_cardMain);
@@ -102,5 +107,19 @@ public class Notifications extends AppCompatActivity {
             NotificationsAdapter adapter = new NotificationsAdapter(this, notifications);
             rv.setAdapter(adapter);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (actionBarDrawerToggle.onOptionsItemSelected(item))
+            return true;
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
+        if (CommonFunctions.menu(this, item, "Notifications"))
+            finish();
+        return true;
     }
 }

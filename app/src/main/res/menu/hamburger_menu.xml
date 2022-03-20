@@ -21,10 +21,22 @@
             android:title="Health Status"
             app:showAsAction="never" />
         <item
+            android:id="@+id/action_qrcode"
+            android:icon="@drawable/ic_qr"
+            android:orderInCategory="100"
+            android:title="QR Code"
+            app:showAsAction="never" />
+        <item
             android:id="@+id/action_location"
             android:icon="@drawable/ic_location"
             android:orderInCategory="100"
             android:title="Location History"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/action_notifs"
+            android:icon="@drawable/ic_notifs"
+            android:orderInCategory="100"
+            android:title="Notifications"
             app:showAsAction="never" />
         <item
             android:id="@+id/action_settings"

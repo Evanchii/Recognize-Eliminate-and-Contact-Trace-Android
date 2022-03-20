@@ -94,7 +94,7 @@ public class Login extends AppCompatActivity {
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     if(snapshot.hasChild("faceID")) {
                                         finish();
-                                        startActivity(new Intent(Login.this, Notifications.class));
+                                        startActivity(new Intent(Login.this, Dashboard.class));
                                     } else if (!snapshot.child("Type").getValue().toString().equals("visitor")) {
                                         AlertDialog.Builder confEmail = new AlertDialog.Builder(Login.this);
                                         dialog.dismiss();
