@@ -130,7 +130,7 @@ public class RegInfo extends AppCompatActivity {
         }
 
         if(valid) {
-            Intent regFace = new Intent(RegInfo.this, RegID.class);
+            Intent regFace = new Intent(RegInfo.this, RegFace.class);
             regFace.putExtra("userInfo", info);
             regFace.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             openActivity.launch(regFace);

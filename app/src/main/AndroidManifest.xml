@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -15,17 +16,34 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/Theme.REaCT">
+        android:theme="@style/Theme.REaCT"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:usesCleartextTraffic="true">
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
         <activity
             android:name=".QRCode"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".HowToUse"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".IntroActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Notifications"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".VaccinationApplication"
-            android:exported="false" />
-        <activity android:name=".Password">
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Password"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Settings" />
@@ -41,43 +59,56 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".Settings" />
-        <activity android:name=".Profile">
+        <activity android:name=".Settings"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Profile"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Dashboard" />
         </activity>
-        <activity android:name=".Cases" />
-        <activity android:name=".Health" />
-        <activity android:name=".Location" />
+        <activity android:name=".Cases"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Health"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Location"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Dashboard"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.REaCT" />
-        <activity android:name=".RegPassword">
+        <activity android:name=".RegPassword"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Login" />
         </activity>
-        <activity android:name=".RegID">
+        <activity android:name=".RegID"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Login" />
         </activity>
-        <activity android:name=".RegFace">
+        <activity android:name=".RegFace"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Login" />
+                android:value=".Login"
+                android:screenOrientation="portrait" />
         </activity>
-        <activity android:name=".RegInfo">
+        <activity android:name=".RegInfo"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Login" />
         </activity>
         <activity
             android:name=".Login"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.REaCT.NoActionBar" />
         <activity
             android:name=".Splashscreen"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.REaCT.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -8,6 +8,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -19,9 +21,11 @@ import android.text.Spanned;
 import android.text.format.Formatter;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.util.ArrayUtils;
@@ -43,13 +47,19 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.kairos.Kairos;
+import com.kairos.KairosListener;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
@@ -83,7 +93,6 @@ public class RegPassword extends AppCompatActivity {
         mStorage= FirebaseStorage.getInstance().getReference();
         String ip;
 
-
         ToS = findViewById(R.id.regPass_chkToS);
         String text = "I agree to the Terms and Service\nand Privacy Policy";
         SpannableString ss = new SpannableString(text);
@@ -109,26 +118,6 @@ public class RegPassword extends AppCompatActivity {
     public void returnLogin(View view) {
         startActivity(new Intent(RegPassword.this, Login.class));
         finish();
-    }
-
-    public void upload() {
-        Uri ID = Uri.parse(info.get("ID"));
-
-//        StorageReference filepathFace = mStorage.child("Face").child(mAuth.getCurrentUser().getUid().toString() +"."+ face.getLastPathSegment().split("\\.")[1]);
-//        filepathFace.putFile(face).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//            @Override
-//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                signupDbRef.child("faceID").setValue("Face/"+mAuth.getCurrentUser().getUid().toString() +"."+ face.getLastPathSegment().split("\\.")[1]);
-////                progUp.dismiss();
-//                finish();
-//            }
-//        });
-
-        StorageReference filepathID = mStorage.child("ID").child(mAuth.getCurrentUser().getUid().toString() +"."+ ID.getLastPathSegment().split("\\.")[1]);
-        filepathID.putFile(ID).addOnSuccessListener(taskSnapshot -> {
-            signupDbRef.child("ID").setValue("ID/"+mAuth.getCurrentUser().getUid().toString() +"."+ ID.getLastPathSegment().split("\\.")[1]);
-//                progUp.dismiss();
-        });
     }
 
     public static String getIPAddress(boolean useIPv4) {
@@ -185,7 +174,6 @@ public class RegPassword extends AppCompatActivity {
                             @Override
                             public void onSuccess(AuthResult authResult) {
                                 mAuth.getCurrentUser().sendEmailVerification();
-                                AlertDialog.Builder confEmail = new AlertDialog.Builder(RegPassword.this);
                                 String userID = mAuth.getCurrentUser().getUid();
                                 signupDbRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userID).child("info");
                                 signupDbRef.child("Type").setValue("visitor");
@@ -215,23 +203,29 @@ public class RegPassword extends AppCompatActivity {
                                                 mAuth.getCurrentUser().getUid() + ") has created their own account");
                                         logRef.child(ts).child("category").setValue("Account");
 
-                                        upload();
+                                        Uri ID = Uri.parse(info.get("ID")),
+                                                face = Uri.parse(info.get("faceID"));
 
-                                        progUp.dismiss();
+                                        StorageReference filepathFace = mStorage.child("Face").child(mAuth.getCurrentUser().getUid().toString() +"."+ face.getLastPathSegment().split("\\.")[1]);
+                                        filepathFace.putFile(face).addOnSuccessListener(taskSnapshot -> {
+                                            signupDbRef.child("faceID").setValue("Face/"+mAuth.getCurrentUser().getUid().toString() +"."+ face.getLastPathSegment().split("\\.")[1]);
+//                                          progUp.dismiss();
+                                            finish();
+                                        });
 
-                                        confEmail.setTitle("One last step left")
-                                                .setMessage("Thank you for registering! Let's finalize your registration by \n(1) registering your face inside the system through the website; and, \n(2) Confirming your Email Address by opening the link we sent to your email inbox/spam.")
-                                                .setPositiveButton("OK", (dialog, which) -> {
-                                                    mAuth.signOut();
-                                                    setResult(Activity.RESULT_OK);
-                                                    finish();
-                                                })
-                                                .setNeutralButton("Face Registration", (dialog, which) -> {
-                                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://react-app.ga/pages/registerFace.php")));
-                                                    mAuth.signOut();
-                                                    setResult(Activity.RESULT_OK);
-                                                    finish();
-                                                }).setCancelable(false).show();
+                                        StorageReference filepathID = mStorage.child("ID").child(mAuth.getCurrentUser().getUid().toString() +"."+ ID.getLastPathSegment().split("\\.")[1]);
+                                        filepathID.putFile(ID).addOnSuccessListener(taskSnapshot -> {
+                                            signupDbRef.child("ID").setValue("ID/"+mAuth.getCurrentUser().getUid().toString() +"."+ ID.getLastPathSegment().split("\\.")[1]);
+//                                          progUp.dismiss();
+                                        });
+
+                                        try {
+                                            enrollFace(userID);
+                                        } catch (UnsupportedEncodingException e) {
+                                            e.printStackTrace();
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
 
                                     @Override
@@ -277,5 +271,85 @@ public class RegPassword extends AppCompatActivity {
             layConf.setErrorEnabled(true);
             progUp.dismiss();
         }
+    }
+
+    private void enrollFace(String uid) throws UnsupportedEncodingException, JSONException {
+        String app_id = "345b9a6b";
+        String api_key = "0ee46186eb4310b5e7936385b2f32a32";
+        String gallery_id = "users";
+
+        Kairos myKairos = new Kairos();
+        myKairos.setAuthentication(RegPassword.this, app_id, api_key);
+
+        KairosListener kaiListener = new KairosListener() {
+            @Override
+            public void onSuccess(String response) {
+                Log.d("KaiSucc", response);
+            }
+
+            @Override
+            public void onFail(String response) {
+                Log.e("KaiFail", response);
+            }
+        };
+
+        String selector = "FULL";
+        try {
+            myKairos.enroll(getThumbnail(Uri.parse(info.get("faceID"))),
+                    uid,
+                    gallery_id,
+                    selector,
+                    "false",
+                    "0.1",
+                    kaiListener);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        progUp.dismiss();
+
+        AlertDialog.Builder confEmail = new AlertDialog.Builder(RegPassword.this);
+        confEmail.setTitle("One last step left")
+                .setMessage("Thank you for registering! Let's finalize your registration by Confirming your Email Address by opening the link we sent to your email inbox/spam.")
+                .setPositiveButton("OK", (dialog, which) -> {
+                    mAuth.signOut();
+                    setResult(Activity.RESULT_OK);
+                    finish();
+                }).show();
+    }
+
+    public Bitmap getThumbnail(Uri uri) throws FileNotFoundException, IOException {
+        InputStream input = this.getContentResolver().openInputStream(uri);
+
+        BitmapFactory.Options onlyBoundsOptions = new BitmapFactory.Options();
+        onlyBoundsOptions.inJustDecodeBounds = true;
+        onlyBoundsOptions.inDither=true;//optional
+        onlyBoundsOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//optional
+        BitmapFactory.decodeStream(input, null, onlyBoundsOptions);
+        input.close();
+
+        if ((onlyBoundsOptions.outWidth == -1) || (onlyBoundsOptions.outHeight == -1)) {
+            return null;
+        }
+
+        int originalSize = (onlyBoundsOptions.outHeight > onlyBoundsOptions.outWidth) ? onlyBoundsOptions.outHeight : onlyBoundsOptions.outWidth;
+
+        double ratio = (originalSize > 500) ? (originalSize / 500) : 1.0;
+
+
+        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+        bitmapOptions.inSampleSize = getPowerOfTwoForSampleRatio(ratio);
+        bitmapOptions.inDither = true; //optional
+        bitmapOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//
+        input = this.getContentResolver().openInputStream(uri);
+        Bitmap bitmap = BitmapFactory.decodeStream(input, null, bitmapOptions);
+        input.close();
+        return bitmap;
+    }
+
+    private static int getPowerOfTwoForSampleRatio(double ratio){
+        int k = Integer.highestOneBit((int)Math.floor(ratio));
+        if(k==0) return 1;
+        else return k;
     }
 }

@@ -134,12 +134,6 @@ public class Health extends AppCompatActivity implements NavigationView.OnNaviga
         switch (vaccination) {
             case "pending":
                 cardVacc.setStrokeColor(Color.parseColor("#FF3c3f41"));
-                cardVacc.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        //
-                    }
-                });
                 textVacc.setText("Application\nPending");
                 imgVacc.setImageResource(R.drawable.ic_pending);
                 break;
@@ -150,6 +144,9 @@ public class Health extends AppCompatActivity implements NavigationView.OnNaviga
                 break;
             case "false":
                 cardVacc.setStrokeColor(Color.parseColor("#FFA83C52"));
+                cardVacc.setOnClickListener(view -> {
+                    startActivity(new Intent(Health.this, VaccinationApplication.class));
+                });
                 textVacc.setText("Not Vaccinated");
                 imgVacc.setImageResource(R.drawable.ic_not_vaccinated);
                 break;
@@ -180,7 +177,7 @@ public class Health extends AppCompatActivity implements NavigationView.OnNaviga
                         RunnableFuture<Void> sendCovidNotifs = new FutureTask<>(new Callable<Void>() {
                             FirebaseAuth mAuth = FirebaseAuth.getInstance();
                             DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference(),
-                                    userHisRef = dbRef.child("Users/"+mAuth.getCurrentUser()+"/history"),
+                                    userHisRef = dbRef.child("Users/"+mAuth.getCurrentUser().getUid()+"/history"),
                                     hisRef = dbRef.child("History"),
                                     notifRef = dbRef.child("Notifications");
 
@@ -280,7 +277,7 @@ public class Health extends AppCompatActivity implements NavigationView.OnNaviga
                         new Thread(sendCovidNotifs).start();
 
                     }
-                    dbRef.setValue(status);
+                    dbRef.child("status").setValue(status);
                     setStatus();
                     dialog.dismiss();
                 })

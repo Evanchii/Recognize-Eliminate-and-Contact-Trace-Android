@@ -64,6 +64,7 @@ public class VaccinationApplication extends AppCompatActivity {
                 result -> {
                     if(result) {
                         ((ImageView) findViewById(R.id.vacc_imgCard)).setImageURI(URICard);
+                        ((ImageView) findViewById(R.id.vacc_imgCard)).setVisibility(View.VISIBLE);
                         ((Button) findViewById(R.id.vacc_btnSubmit)).setEnabled(true);
                     }
                 });
@@ -140,8 +141,9 @@ public class VaccinationApplication extends AppCompatActivity {
 
                     StorageReference filepathCard = mStorage.child("Vacc").child(mAuth.getCurrentUser().getUid().toString() +"."+ URICard.getLastPathSegment().split("\\.")[1]);
                     filepathCard.putFile(URICard).addOnSuccessListener(taskSnapshot -> {
-                        userRef.child("vaccID").setValue("vacc/"+mAuth.getCurrentUser().getUid().toString() +"."+ URICard.getLastPathSegment().split("\\.")[1]);
-                        appRef.child(ts+"/vaccID").setValue("vacc/"+mAuth.getCurrentUser().getUid().toString() +"."+ URICard.getLastPathSegment().split("\\.")[1]);
+                        userRef.child("vaccID").setValue("Vacc/"+mAuth.getCurrentUser().getUid().toString() +"."+ URICard.getLastPathSegment().split("\\.")[1]);
+                        userRef.child("vaccine").setValue("pending");
+                        appRef.child(ts+"/vaccID").setValue("Vacc/"+mAuth.getCurrentUser().getUid().toString() +"."+ URICard.getLastPathSegment().split("\\.")[1]);
 
                         progUp.dismiss();
                         AlertDialog.Builder feedback = new AlertDialog.Builder(VaccinationApplication.this);

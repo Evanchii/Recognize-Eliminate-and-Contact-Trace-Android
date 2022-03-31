@@ -72,4 +72,17 @@
         <item>Partially Vaccinated (1st Dose)</item>
         <item>Fully Vaccinated</item>
     </string-array>
+    <string-array name="how_to_use">
+        <item>Forgot Password</item>
+        <item>View/Edit Profile</item>
+        <item>View Covid Cases</item>
+        <item>Set Health Status</item>
+        <item>Set Vaccination Status</item>
+        <item>QR Code</item>
+        <item>View History</item>
+        <item>View Notifications</item>
+        <item>Change Password</item>
+        <item>Log out</item>
+        <item>Contact us</item>
+    </string-array>
 </resources>

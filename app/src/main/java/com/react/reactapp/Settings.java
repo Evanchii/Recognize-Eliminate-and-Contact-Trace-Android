@@ -46,7 +46,7 @@ public class Settings extends AppCompatActivity implements NavigationView.OnNavi
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(4).setChecked(true);
+        navigationView.getMenu().getItem(6).setChecked(true);
 
         View headerView = navigationView.getHeaderView(0);
         CardView headerCard = (CardView) headerView.findViewById(R.id.header_cardMain);
@@ -92,5 +92,9 @@ public class Settings extends AppCompatActivity implements NavigationView.OnNavi
         if(CommonFunctions.menu(this, item, "Settings"))
             finish();
         return true;
+    }
+
+    public void help(View view) {
+        startActivity(new Intent(Settings.this, HowToUse.class));
     }
 }

@@ -31,7 +31,7 @@ public class RegID extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reg_id);
         Intent intent = getIntent();
-        info = (HashMap<String, String>) intent.getSerializableExtra("userInfo");
+        info = (HashMap<String, String>) intent.getSerializableExtra("info");
 
         openActivity = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -115,10 +115,7 @@ public class RegID extends AppCompatActivity {
     }
 
     public void submit(View view) {
-        //Call API
-        if(true/*success*/) {
             info.put("ID", String.valueOf(URIid));
             openActivity.launch((new Intent(RegID.this, RegPassword.class)).putExtra("info", info).setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
-        }
     }
 }

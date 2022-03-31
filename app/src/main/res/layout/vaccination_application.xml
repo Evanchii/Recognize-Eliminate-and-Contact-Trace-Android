@@ -21,80 +21,88 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/curback_white"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:background="@drawable/curback_white">
 
-        <TextView
-            android:id="@+id/textView22"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/asap"
-            android:text="Upload Vaccination Card" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <ImageView
-            android:id="@+id/vacc_imgCard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            app:srcCompat="@drawable/cust_button_white" />
+            <TextView
+                android:id="@+id/textView22"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/asap"
+                android:text="Upload Vaccination Card" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/vacc_btnUpload"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/cust_button_blue"
-            android:fontFamily="@font/quicksand"
-            android:text="Select File"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/vacc_imgCard"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone"
+                app:srcCompat="@drawable/cust_button_white" />
 
-        <TextView
-            android:id="@+id/textView24"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/asap"
-            android:text="Vaccine Brand" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/vacc_btnUpload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/cust_button_blue"
+                android:fontFamily="@font/quicksand"
+                android:text="Select File"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
 
-        <Spinner
-            android:id="@+id/vacc_spnBrand"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/vaccBrand" />
+            <TextView
+                android:id="@+id/textView24"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/asap"
+                android:text="Vaccine Brand" />
 
-        <TextView
-            android:id="@+id/textView25"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/asap"
-            android:text="Status" />
+            <Spinner
+                android:id="@+id/vacc_spnBrand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/vaccBrand" />
 
-        <Spinner
-            android:id="@+id/vacc_spnStatus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/vaccStatus" />
+            <TextView
+                android:id="@+id/textView25"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/asap"
+                android:text="Status" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/vacc_btnSubmit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/cust_button_blue"
-            android:fontFamily="@font/quicksand"
-            android:text="Submit"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+            <Spinner
+                android:id="@+id/vacc_spnStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/vaccStatus" />
 
-    </LinearLayout>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/vacc_btnSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/cust_button_blue"
+                android:enabled="false"
+                android:fontFamily="@font/quicksand"
+                android:text="Submit"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>

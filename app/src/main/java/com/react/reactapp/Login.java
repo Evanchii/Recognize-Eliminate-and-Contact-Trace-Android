@@ -55,10 +55,7 @@ public class Login extends AppCompatActivity {
     }
 
     public void forgotPassword(View view) {
-        float scale = getResources().getDisplayMetrics().density;
-
         EditText reset = new EditText(view.getContext());
-        reset.setPadding((int) ( 16*scale + 0.5f),0,(int) ( 16*scale + 0.5f),0);
         AlertDialog.Builder resetDialog = new AlertDialog.Builder(view.getContext());
         resetDialog.setTitle("Password Reset");
         resetDialog.setMessage("Enter your email");
@@ -167,5 +164,8 @@ public class Login extends AppCompatActivity {
 
     public void signUp(View view) {
         startActivity(new Intent(Login.this, RegInfo.class));
+    }
+    public void help(View view) {
+        startActivity(new Intent(Login.this, HowToUse.class));
     }
 }
